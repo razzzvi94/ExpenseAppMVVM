@@ -2,6 +2,8 @@ package com.example.expenseappmvvm.app
 
 import android.app.Application
 import com.example.expenseappmvvm.BuildConfig
+import com.example.expenseappmvvm.app.dependencies.dataModules
+import com.example.expenseappmvvm.app.dependencies.databaseModule
 import com.example.expenseappmvvm.app.dependencies.preferencesModule
 import com.facebook.stetho.Stetho
 import org.koin.android.ext.koin.androidContext
@@ -16,7 +18,7 @@ class ExpenseApp: Application() {
         startKoin {
             androidLogger()
             androidContext(this@ExpenseApp)
-            modules(listOf(preferencesModule))
+            modules(listOf(databaseModule, preferencesModule, dataModules))
         }
         Stetho.initializeWithDefaults(this)
         initTimber()
