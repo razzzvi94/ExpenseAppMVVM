@@ -1,14 +1,7 @@
-package com.example.expenseappmvvm.data.model
+package com.example.expenseappmvvm.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.expenseappmvvm.utils.Constants
-import org.koin.android.ext.koin.androidContext
-import org.koin.dsl.module
-
-val prefModule = module {
-    single { Preferences(androidContext()) }
-}
 
 class Preferences(context: Context) {
     private val sharedPref =
