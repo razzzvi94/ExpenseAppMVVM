@@ -10,14 +10,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".screens.splashScreen.SplashActivity">
+        <activity android:name=".screens.loginScreen.LoginActivity"></activity>
+        <activity
+            android:name=".screens.splashScreen.SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".screens.mainScreen.HomeActivity"/>
+        <activity android:name=".screens.mainScreen.HomeActivity" />
     </application>
 
 </manifest>
