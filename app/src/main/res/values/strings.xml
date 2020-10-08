@@ -67,8 +67,8 @@
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="wrong_data">Wrong data inserted</string>
-    <string name="registred_success">Successfully Registered</string>
-    <string name="registred_failed">Registration Failed</string>
+    <string name="registered_success">Successfully Registered</string>
+    <string name="registered_failed">Registration Failed</string>
     <string name="login_success">Successfully Login</string>
     <string name="password_reset_success">Successfully Reset Password, please check your email</string>
     <string name="password_reset_failed">Failed Reset Password</string>

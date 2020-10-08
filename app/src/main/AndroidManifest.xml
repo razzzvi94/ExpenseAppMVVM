@@ -10,7 +10,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".screens.loginScreen.LoginActivity"></activity>
         <activity
             android:name=".screens.splashScreen.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -20,7 +19,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".screens.mainScreen.HomeActivity" />
+        <activity android:name=".screens.loginScreen.LoginActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarNoFullScreen"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".screens.mainScreen.HomeActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarNoFullScreen"
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>

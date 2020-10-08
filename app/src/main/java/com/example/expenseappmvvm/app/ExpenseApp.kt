@@ -10,13 +10,20 @@ import org.koin.core.context.GlobalContext.startKoin
 import timber.log.Timber
 
 class ExpenseApp: Application() {
-
     override fun onCreate() {
         super.onCreate()
         startKoin {
             androidLogger()
             androidContext(this@ExpenseApp)
-            modules(listOf(databaseModule, preferencesModule, dataModules, viewModelsModule, rxModules))
+            modules(
+                listOf(
+                    databaseModule,
+                    preferencesModule,
+                    dataModules,
+                    viewModelsModule,
+                    rxModules
+                )
+            )
         }
         Stetho.initializeWithDefaults(this)
         initTimber()
