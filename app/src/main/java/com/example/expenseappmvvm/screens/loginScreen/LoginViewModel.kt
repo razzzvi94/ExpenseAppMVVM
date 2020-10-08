@@ -1,23 +1,25 @@
 package com.example.expenseappmvvm.screens.loginScreen
 
-import android.widget.Toast
+import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.expenseappmvvm.utils.resourceUtils.ResourceUtils
+import com.example.expenseappmvvm.utils.FormErrorsEnum
+import com.example.expenseappmvvm.utils.Validations
 
-class LoginViewModel(private val resourceUtils: ResourceUtils) : ViewModel() {
+
+class LoginViewModel() : ViewModel() {
     val showHide = MutableLiveData<Boolean>().apply { value = false }
-    var username: String = ""
-    var email: String = ""
-    var password: String = ""
+    var username: MutableLiveData<String> = MutableLiveData()
+    var email: MutableLiveData<String> = MutableLiveData()
+    var password: MutableLiveData<String> = MutableLiveData()
+    val formErrors = ObservableArrayList<FormErrorsEnum>()
 
     fun onCreate() {}
 
     fun onLoginClick() {
-        if(showHide.value == true) {
+        if (showHide.value == true) {
             validateRegister()
-        }
-        else{
+        } else {
             validateLogin()
         }
     }
@@ -27,26 +29,25 @@ class LoginViewModel(private val resourceUtils: ResourceUtils) : ViewModel() {
     }
 
     private fun validateLogin() {
-        if (email.isEmpty()) {
-            Toast.makeText(resourceUtils.getContext(), "Invalid email", Toast.LENGTH_SHORT).show()
+        formErrors.clear()
+        if (!Validations.emailValidation(email.value.toString())) {
+            formErrors.add(FormErrorsEnum.INVALID_EMAIL)
         }
-
-        if (password.isEmpty()) {
-            Toast.makeText(resourceUtils.getContext(), "Invalid password", Toast.LENGTH_SHORT).show()
+        if (!Validations.passwordValidation(password.value.toString())) {
+            formErrors.add(FormErrorsEnum.INVALID_PASSWORD)
         }
     }
 
-    private fun validateRegister(){
-        if (username.isEmpty()) {
-            Toast.makeText(resourceUtils.getContext(), "Invalid username", Toast.LENGTH_SHORT).show()
+    private fun validateRegister() {
+        formErrors.clear()
+        if (!Validations.nameValidation(username.value.toString())) {
+            formErrors.add(FormErrorsEnum.MISSING_NAME)
         }
-
-        if (email.isEmpty()) {
-            Toast.makeText(resourceUtils.getContext(), "Invalid email", Toast.LENGTH_SHORT).show()
+        if (!Validations.emailValidation(email.value.toString())) {
+            formErrors.add(FormErrorsEnum.INVALID_EMAIL)
         }
-
-        if (password.isEmpty()) {
-            Toast.makeText(resourceUtils.getContext(), "Invalid password", Toast.LENGTH_SHORT).show()
+        if (!Validations.passwordValidation(password.value.toString())) {
+            formErrors.add(FormErrorsEnum.INVALID_PASSWORD)
         }
     }
 }
