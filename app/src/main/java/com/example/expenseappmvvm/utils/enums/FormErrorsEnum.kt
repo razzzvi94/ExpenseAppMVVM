@@ -1,4 +1,4 @@
-package com.example.expenseappmvvm.utils
+package com.example.expenseappmvvm.utils.enums
 
 enum class FormErrorsEnum {
     MISSING_NAME,

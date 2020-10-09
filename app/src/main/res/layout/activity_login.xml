@@ -6,7 +6,7 @@
 
     <data>
         <import type="android.view.View" />
-        <import type="com.example.expenseappmvvm.utils.FormErrorsEnum" />
+        <import type="com.example.expenseappmvvm.utils.enums.FormErrorsEnum" />
         <variable
             name="viewModel"
             type="com.example.expenseappmvvm.screens.loginScreen.LoginViewModel" />
@@ -29,7 +29,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.2" />
+            app:layout_constraintVertical_bias="0.2"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/login_text"
@@ -59,7 +60,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/login_text"
             app:layout_constraintWidth_percent="0.8">
-            <!--app:errorText='@{viewModel.formErrors.contains(FormErrors.MISSING_NAME) ? "Required" : ""}'>-->
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_text_name_register"
@@ -79,16 +79,16 @@
 
         <TextView
             android:id="@+id/name_err_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/space_0dp"
             android:layout_height="wrap_content"
-            android:text="Enter first name and last name"
+            android:text="@string/wrong_name"
             android:textColor="@color/colorRed"
-            app:layout_constraintTop_toBottomOf="@+id/text_input_name_register"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.2"
+            android:visibility="@{viewModel.formErrors.contains(FormErrorsEnum.MISSING_NAME) ? View.VISIBLE: View.GONE}"
             app:layout_constraintBottom_toTopOf="@+id/text_input_email_login"
-            android:visibility="@{viewModel.formErrors.contains(FormErrorsEnum.MISSING_NAME) ? View.VISIBLE: View.GONE}"/>
+            app:layout_constraintEnd_toEndOf="@+id/text_input_name_register"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toStartOf="@+id/text_input_name_register"
+            app:layout_constraintTop_toBottomOf="@+id/text_input_name_register" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_input_email_login"
@@ -103,7 +103,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_input_name_register"
             app:layout_constraintWidth_percent="0.8">
-           <!-- app:errorText='@{viewModel.formErrors.contains(FormErrors.INVALID_EMAIL) ? "Required" : ""}'> -->
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_text_email_login"
@@ -123,16 +122,16 @@
 
         <TextView
             android:id="@+id/email_err_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/space_0dp"
             android:layout_height="wrap_content"
-            android:text="Email is not valid"
+            android:text="@string/wrong_email"
             android:textColor="@color/colorRed"
-            app:layout_constraintTop_toBottomOf="@+id/text_input_email_login"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.15"
+            android:visibility="@{viewModel.formErrors.contains(FormErrorsEnum.INVALID_EMAIL) ? View.VISIBLE: View.GONE}"
             app:layout_constraintBottom_toTopOf="@+id/text_input_password_login"
-            android:visibility="@{viewModel.formErrors.contains(FormErrorsEnum.INVALID_EMAIL) ? View.VISIBLE: View.GONE}"/>
+            app:layout_constraintEnd_toEndOf="@+id/text_input_email_login"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="@+id/text_input_email_login"
+            app:layout_constraintTop_toBottomOf="@+id/text_input_email_login" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_input_password_login"
@@ -150,7 +149,6 @@
             app:passwordToggleDrawable="@drawable/password_visibility_selector"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@color/colorGreen">
-            <!--app:errorText='@{viewModel.formErrors.contains(FormErrors.INVALID_PASSWORD) ? "Required" : ""}'>-->
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_text_password_login"
@@ -170,16 +168,16 @@
 
         <TextView
             android:id="@+id/password_err_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/space_0dp"
             android:layout_height="wrap_content"
-            android:text="Password is not valid"
+            android:text="@{viewModel.passwordErr}"
+            app:autoSizeTextType="uniform"
             android:textColor="@color/colorRed"
-            app:layout_constraintTop_toBottomOf="@+id/text_input_password_login"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.17"
             app:layout_constraintBottom_toTopOf="@+id/btn_login"
-            android:visibility="@{viewModel.formErrors.contains(FormErrorsEnum.INVALID_PASSWORD) ? View.VISIBLE: View.GONE}"/>
+            app:layout_constraintEnd_toEndOf="@+id/text_input_password_login"
+            app:layout_constraintStart_toStartOf="@+id/text_input_password_login"
+            app:layout_constraintTop_toBottomOf="@+id/text_input_password_login"
+            tools:text="Password is not valid" />
 
         <Button
             android:id="@+id/btn_login"

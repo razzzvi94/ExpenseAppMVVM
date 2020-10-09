@@ -84,4 +84,11 @@
     <string name="edit_action">Edit action</string>
     <string name="mandatory_fields">Date and amount can\'t be empty</string>
     <string name="notification_msg">\"Your balance is: %1s\"</string>
+    <string name="password_err_empty">Password must not be empty</string>
+    <string name="password_err_digits">Password must contain at least one digit</string>
+    <string name="password_err_lowercase">Password must contain at least one lowercase letter</string>
+    <string name="password_err_uppercase">Password must contain at least one uppercase letter</string>
+    <string name="password_err_specialChar">Password must contain at least one special character</string>
+    <string name="password_err_whiteSpace">Password must not contain spaces</string>
+    <string name="password_err_length">Password must be at least 6 characters long</string>
 </resources>

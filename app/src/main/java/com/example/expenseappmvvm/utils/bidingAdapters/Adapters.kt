@@ -17,8 +17,3 @@ fun bindMarginTop(view: View, dimen: Int) {
     layoutParams.topMargin = dimen
     view.layoutParams = layoutParams
 }
-
-//@BindingAdapter("app:errorText")
-//fun setErrorMessage(view: TextInputLayout, errorMessage: String) {
-//    view.error = errorMessage
-//}

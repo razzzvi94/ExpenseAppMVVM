@@ -6,4 +6,6 @@ object Constants {
     const val USER_ID = "USER_ID"
     const val USER_NAME = "USER_NAME"
     const val EMPTY_STRING = ""
+    const val NULL_STRING = "null"
+    const val SPECIAL_CHAR_STRING = "!@#$%&*()'+,-./:;<=>?[]^_`{|}"
 }
