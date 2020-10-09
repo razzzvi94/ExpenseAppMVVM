@@ -10,12 +10,12 @@ import io.reactivex.Single
 
 @Dao
 interface UserDao {
-    @Query("SELECT * FROM users WHERE uid = :id ")
+    @Query("SELECT * FROM users WHERE userName = :id ")
     fun getUserById(id: Long): Flowable<User>
 
-    @Query("SELECT uid FROM users WHERE userEmail = :email")
+    @Query("SELECT userId FROM users WHERE userEmail = :email")
     fun getUserIdByEmail(email: String): Single<Long>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveUser(user: User)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    fun saveUser(user: User): Single<Long>
 }
