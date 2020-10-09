@@ -8,18 +8,66 @@ object Validations {
         return email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    fun passwordValidation(password: String): Boolean {
-        return password.isNotEmpty() && Pattern.matches(
-            "^" +
-                    "(?=.*[0-9])" +
-                    "(?=.*[a-z])" +
-                    "(?=.*[A-Z])" +
-                    "(?=.*[@#$%^&+=!.*()_~])" +
-                    "(?=\\S+$)" +
-                    ".{6,}" +
-                    "$",
-            password
-        )
+    fun passwordEmpty(password: String): Boolean {
+        if (password == Constants.NULL_STRING || password.isEmpty()) {
+            return true
+        }
+        return false
+    }
+
+    fun passwordContainsDigits(password: String): Boolean {
+        val c: CharArray = password.toCharArray()
+        for (item in c) {
+            if (item.isDigit()) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun passwordContainsLowercase(password: String): Boolean {
+        val c: CharArray = password.toCharArray()
+        for (item in c) {
+            if (item.isLowerCase()) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun passwordContainsUppercase(password: String): Boolean {
+        val c: CharArray = password.toCharArray()
+        for (item in c) {
+            if (item.isUpperCase()) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun passwordContainsSpecialChar(password: String): Boolean {
+        val specialCharactersString = Constants.SPECIAL_CHAR_STRING
+        val c: CharArray = password.toCharArray()
+        for (item in c) {
+            if (specialCharactersString.contains(item)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun passwordExcludesSpace(password: String): Boolean {
+        val c: CharArray = password.toCharArray()
+        for (item in c) {
+            if (item.isWhitespace()) {
+                return false
+            }
+        }
+        return true
+    }
+
+    fun passwordLength(password: String): Boolean {
+        return password.isNotEmpty() && password.length >= 6
     }
 
     fun nameValidation(name: String): Boolean {
