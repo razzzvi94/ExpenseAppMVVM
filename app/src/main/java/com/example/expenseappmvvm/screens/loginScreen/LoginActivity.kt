@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import com.example.expenseappmvvm.R
 import com.example.expenseappmvvm.databinding.ActivityLoginBinding
 import com.example.expenseappmvvm.screens.mainScreen.HomeActivity
@@ -32,14 +31,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun observeLiveData() {
-        loginViewModel.goToHomeScreen.observe(this, Observer {
-            when (it) {
-                true -> {
-                    val intent = Intent(this, HomeActivity::class.java)
-                    startActivity(intent)
-                }
-            }
-        })
+        loginViewModel.goToHomeScreen.observe(this, { HomeActivity.startHome(this) })
     }
 
     companion object {

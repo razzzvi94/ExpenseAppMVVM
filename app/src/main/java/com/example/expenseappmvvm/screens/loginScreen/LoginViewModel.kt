@@ -10,9 +10,7 @@ import com.example.expenseappmvvm.R
 import com.example.expenseappmvvm.data.database.entities.User
 import com.example.expenseappmvvm.data.database.repositories.UserRepository
 import com.example.expenseappmvvm.data.rx.AppRxSchedulers
-import com.example.expenseappmvvm.utils.EncryptionUtils
-import com.example.expenseappmvvm.utils.Validations
-import com.example.expenseappmvvm.utils.disposeBy
+import com.example.expenseappmvvm.utils.*
 import com.example.expenseappmvvm.utils.enums.FormErrorsEnum
 import com.example.expenseappmvvm.utils.resourceUtils.ResourceUtils
 import com.google.android.material.textfield.TextInputEditText
@@ -25,94 +23,30 @@ class LoginViewModel(
     private val compositeDisposable: CompositeDisposable
 ) : ViewModel() {
     val showHide = MutableLiveData<Boolean>().apply { value = false }
-    val formErrors = ObservableArrayList<FormErrorsEnum>()
-    val passwordErr = MutableLiveData<String>().apply { value = "" }
+    val formErrorsList = ObservableArrayList<FormErrorsEnum>()
+    val passwordErr = MutableLiveData<String>().apply { value = Constants.EMPTY_STRING }
 
     var username: MutableLiveData<String> = MutableLiveData()
     var email: MutableLiveData<String> = MutableLiveData()
     var password: MutableLiveData<String> = MutableLiveData()
 
-    var goToHomeScreen = MutableLiveData<Boolean>().apply { value = false }
+    var goToHomeScreen = SingleLiveEvent<Any>()
 
-    var isValid = true
+    private var isValid = true
 
-    fun nameTextChanged(registerTextInputEditText: TextInputEditText) {
-        registerTextInputEditText.addTextChangedListener(object :
-            TextWatcher {
-            override fun afterTextChanged(s: Editable?) {}
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                formErrors.clear()
-                isValid = true
-                if (!Validations.nameValidation(username.value.toString())) {
-                    formErrors.add(FormErrorsEnum.MISSING_NAME)
-                    isValid = false
-                }
-            }
-        })
-    }
-
-    fun emailTextChanged(emailTextInputEditText: TextInputEditText) {
-        emailTextInputEditText.addTextChangedListener(object :
-            TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-            override fun afterTextChanged(p0: Editable?) {}
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                formErrors.clear()
-                isValid = true
-                if (!Validations.emailValidation(email.value.toString())) {
-                    formErrors.add(FormErrorsEnum.INVALID_EMAIL)
-                    isValid = false
-                }
-            }
-        })
-    }
-
-    fun passwordTextChanged(passwordTextInputText: TextInputEditText) {
-        passwordTextInputText.addTextChangedListener(object :
-            TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-            override fun afterTextChanged(p0: Editable?) {
-                formErrors.clear()
-                isValid = true
-                if (!validatePassword()) {
-                    formErrors.add(FormErrorsEnum.INVALID_PASSWORD)
-                    isValid = false
-                }
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-        })
-    }
-
-    fun onLoginClick() {
-        if (showHide.value == true) {
-            validateRegister()
-        } else {
-            validateLogin()
-        }
-    }
-
-    fun onRegisterLinkClick() {
-        showHide.value = showHide.value != true
+    private fun addFormError(formError: FormErrorsEnum){
+        formErrorsList.add(formError)
+        isValid = false
     }
 
     private fun validateLogin() {
-        formErrors.clear()
+        formErrorsList.clear()
         isValid = true
         if (!Validations.emailValidation(email.value.toString())) {
-            formErrors.add(FormErrorsEnum.INVALID_EMAIL)
-            isValid = false
+            addFormError(FormErrorsEnum.INVALID_EMAIL)
         }
         if (!validatePassword()) {
-            formErrors.add(FormErrorsEnum.INVALID_PASSWORD)
-            isValid = false
+            addFormError(FormErrorsEnum.INVALID_PASSWORD)
         }
         if (isValid) {
             loginUser()
@@ -120,19 +54,16 @@ class LoginViewModel(
     }
 
     private fun validateRegister() {
-        formErrors.clear()
+        formErrorsList.clear()
         isValid = true
         if (!Validations.nameValidation(username.value.toString())) {
-            formErrors.add(FormErrorsEnum.MISSING_NAME)
-            isValid = false
+            addFormError(FormErrorsEnum.MISSING_NAME)
         }
         if (!Validations.emailValidation(email.value.toString())) {
-            formErrors.add(FormErrorsEnum.INVALID_EMAIL)
-            isValid = false
+            addFormError(FormErrorsEnum.INVALID_EMAIL)
         }
         if (!validatePassword()) {
-            formErrors.add(FormErrorsEnum.INVALID_PASSWORD)
-            isValid = false
+            addFormError(FormErrorsEnum.INVALID_PASSWORD)
         }
         if (isValid) {
             registerUser()
@@ -146,22 +77,13 @@ class LoginViewModel(
             userName = username.value.toString(),
             userPassword = EncryptionUtils.md5(password.value.toString())
         )
-
         userRepository.registerUser(user)
             .subscribeOn(rxSchedulers.background())
             .observeOn(rxSchedulers.androidUI())
             .subscribe({
-                Toast.makeText(
-                    resourceUtils.getContext(),
-                    resourceUtils.getStringResource(R.string.registered_success),
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(resourceUtils.getContext(), resourceUtils.getStringResource(R.string.registered_success), Toast.LENGTH_SHORT).show()
             }, {
-                Toast.makeText(
-                    resourceUtils.getContext(),
-                    resourceUtils.getStringResource(R.string.registered_failed),
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(resourceUtils.getContext(), resourceUtils.getStringResource(R.string.registered_failed), Toast.LENGTH_SHORT).show()
             })
             .disposeBy(compositeDisposable)
     }
@@ -171,25 +93,15 @@ class LoginViewModel(
             userEmail = email.value.toString(),
             userPassword = EncryptionUtils.md5(password.value.toString())
         )
-
         userRepository.loginUser(user.userEmail, user.userPassword)
             .subscribeOn(rxSchedulers.background())
             .observeOn(rxSchedulers.androidUI())
             .subscribe({
-
                 Toast.makeText(resourceUtils.getContext(), resourceUtils.getStringResource(R.string.login_success), Toast.LENGTH_SHORT).show()
-                goToHomeScreen.value = true
+                goToHomeScreen.call()
             }, {
-                Toast.makeText(
-                    resourceUtils.getContext(),
-                    resourceUtils.getStringResource(R.string.login_failed),
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(resourceUtils.getContext(), resourceUtils.getStringResource(R.string.login_failed), Toast.LENGTH_SHORT).show()
             }).disposeBy(compositeDisposable)
-    }
-
-    fun getActivityNavigation(): Boolean?{
-        return goToHomeScreen.value
     }
 
     private fun validatePassword(): Boolean {
@@ -215,8 +127,71 @@ class LoginViewModel(
             passwordErr.value = resourceUtils.getStringResource(R.string.password_err_length)
             return false
         } else {
-            passwordErr.value = ""
+            passwordErr.value = Constants.EMPTY_STRING
             return true
         }
+    }
+
+    fun nameTextChanged(registerTextInputEditText: TextInputEditText) {
+        registerTextInputEditText.addTextChangedListener(object :
+            TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                formErrorsList.clear()
+                isValid = true
+                if (!Validations.nameValidation(username.value.toString())) {
+                    addFormError(FormErrorsEnum.MISSING_NAME)
+                }
+            }
+        })
+    }
+
+    fun emailTextChanged(emailTextInputEditText: TextInputEditText) {
+        emailTextInputEditText.addTextChangedListener(object :
+            TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun afterTextChanged(p0: Editable?) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                formErrorsList.clear()
+                isValid = true
+                if (!Validations.emailValidation(email.value.toString())) {
+                    addFormError(FormErrorsEnum.INVALID_EMAIL)
+                }
+            }
+        })
+    }
+
+    fun passwordTextChanged(passwordTextInputText: TextInputEditText) {
+        passwordTextInputText.addTextChangedListener(object :
+            TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun afterTextChanged(p0: Editable?) {
+                formErrorsList.clear()
+                isValid = true
+                if (!validatePassword()) {
+                    addFormError(FormErrorsEnum.INVALID_PASSWORD)
+                }
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+        })
+    }
+
+    fun onLoginClick() {
+        if (showHide.value == true) {
+            validateRegister()
+        } else {
+            validateLogin()
+        }
+    }
+
+    fun onRegisterLinkClick() {
+        showHide.value = showHide.value != true
     }
 }
