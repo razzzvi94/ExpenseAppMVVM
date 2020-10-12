@@ -3,7 +3,7 @@ package com.example.expenseappmvvm.utils
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
-class EncryptionUtils {
+object EncryptionUtils {
     fun md5(s: String): String {
         val MD5 = "MD5"
         try {

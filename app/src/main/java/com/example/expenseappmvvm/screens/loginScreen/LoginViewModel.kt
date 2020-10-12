@@ -10,7 +10,6 @@ import com.example.expenseappmvvm.R
 import com.example.expenseappmvvm.data.database.entities.User
 import com.example.expenseappmvvm.data.database.repositories.UserRepository
 import com.example.expenseappmvvm.data.rx.AppRxSchedulers
-import com.example.expenseappmvvm.screens.mainScreen.HomeActivity
 import com.example.expenseappmvvm.utils.EncryptionUtils
 import com.example.expenseappmvvm.utils.Validations
 import com.example.expenseappmvvm.utils.disposeBy
@@ -21,7 +20,6 @@ import io.reactivex.disposables.CompositeDisposable
 
 class LoginViewModel(
     private val resourceUtils: ResourceUtils,
-    private val encryptionUtils: EncryptionUtils,
     private val userRepository: UserRepository,
     private val rxSchedulers: AppRxSchedulers,
     private val compositeDisposable: CompositeDisposable
@@ -34,13 +32,9 @@ class LoginViewModel(
     var email: MutableLiveData<String> = MutableLiveData()
     var password: MutableLiveData<String> = MutableLiveData()
 
+    var goToHomeScreen = MutableLiveData<Boolean>().apply { value = false }
+
     var isValid = true
-
-    private lateinit var activity: LoginActivity
-
-    fun onCreate(parentActivity: LoginActivity) {
-        activity = parentActivity
-    }
 
     fun nameTextChanged(registerTextInputEditText: TextInputEditText) {
         registerTextInputEditText.addTextChangedListener(object :
@@ -150,7 +144,7 @@ class LoginViewModel(
         val user = User(
             userEmail = email.value.toString(),
             userName = username.value.toString(),
-            userPassword = encryptionUtils.md5(password.value.toString())
+            userPassword = EncryptionUtils.md5(password.value.toString())
         )
 
         userRepository.registerUser(user)
@@ -175,7 +169,7 @@ class LoginViewModel(
     private fun loginUser() {
         val user = User(
             userEmail = email.value.toString(),
-            userPassword = encryptionUtils.md5(password.value.toString())
+            userPassword = EncryptionUtils.md5(password.value.toString())
         )
 
         userRepository.loginUser(user.userEmail, user.userPassword)
@@ -184,7 +178,7 @@ class LoginViewModel(
             .subscribe({
 
                 Toast.makeText(resourceUtils.getContext(), resourceUtils.getStringResource(R.string.login_success), Toast.LENGTH_SHORT).show()
-                goToHomeScreen(activity)
+                goToHomeScreen.value = true
             }, {
                 Toast.makeText(
                     resourceUtils.getContext(),
@@ -194,8 +188,8 @@ class LoginViewModel(
             }).disposeBy(compositeDisposable)
     }
 
-    private fun goToHomeScreen(activity: LoginActivity) {
-        HomeActivity.startHome(activity)
+    fun getActivityNavigation(): Boolean?{
+        return goToHomeScreen.value
     }
 
     private fun validatePassword(): Boolean {

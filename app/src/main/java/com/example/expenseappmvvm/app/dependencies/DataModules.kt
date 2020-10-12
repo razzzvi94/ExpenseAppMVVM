@@ -2,7 +2,6 @@ package com.example.expenseappmvvm.app.dependencies
 
 import com.example.expenseappmvvm.data.database.RoomDB
 import com.example.expenseappmvvm.data.database.repositories.UserRepository
-import com.example.expenseappmvvm.utils.EncryptionUtils
 import com.example.expenseappmvvm.utils.Preferences
 import com.example.expenseappmvvm.utils.resourceUtils.ResourceUtils
 import org.koin.android.ext.koin.androidContext
@@ -16,7 +15,6 @@ val databaseModule: Module = module {
 val preferencesModule: Module = module {
     single { Preferences(androidContext()) }
     single { ResourceUtils(androidContext()) }
-    single { EncryptionUtils() }
 }
 
 val dataModules: Module = module {
