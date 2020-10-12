@@ -1,5 +1,7 @@
 package com.example.expenseappmvvm.screens.loginScreen
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Toast
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
@@ -8,14 +10,18 @@ import com.example.expenseappmvvm.R
 import com.example.expenseappmvvm.data.database.entities.User
 import com.example.expenseappmvvm.data.database.repositories.UserRepository
 import com.example.expenseappmvvm.data.rx.AppRxSchedulers
+import com.example.expenseappmvvm.screens.mainScreen.HomeActivity
+import com.example.expenseappmvvm.utils.EncryptionUtils
 import com.example.expenseappmvvm.utils.Validations
 import com.example.expenseappmvvm.utils.disposeBy
 import com.example.expenseappmvvm.utils.enums.FormErrorsEnum
 import com.example.expenseappmvvm.utils.resourceUtils.ResourceUtils
+import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.disposables.CompositeDisposable
 
 class LoginViewModel(
     private val resourceUtils: ResourceUtils,
+    private val encryptionUtils: EncryptionUtils,
     private val userRepository: UserRepository,
     private val rxSchedulers: AppRxSchedulers,
     private val compositeDisposable: CompositeDisposable
@@ -28,7 +34,68 @@ class LoginViewModel(
     var email: MutableLiveData<String> = MutableLiveData()
     var password: MutableLiveData<String> = MutableLiveData()
 
-    fun onCreate() {}
+    var isValid = true
+
+    private lateinit var activity: LoginActivity
+
+    fun onCreate(parentActivity: LoginActivity) {
+        activity = parentActivity
+    }
+
+    fun nameTextChanged(registerTextInputEditText: TextInputEditText) {
+        registerTextInputEditText.addTextChangedListener(object :
+            TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                formErrors.clear()
+                isValid = true
+                if (!Validations.nameValidation(username.value.toString())) {
+                    formErrors.add(FormErrorsEnum.MISSING_NAME)
+                    isValid = false
+                }
+            }
+        })
+    }
+
+    fun emailTextChanged(emailTextInputEditText: TextInputEditText) {
+        emailTextInputEditText.addTextChangedListener(object :
+            TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun afterTextChanged(p0: Editable?) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                formErrors.clear()
+                isValid = true
+                if (!Validations.emailValidation(email.value.toString())) {
+                    formErrors.add(FormErrorsEnum.INVALID_EMAIL)
+                    isValid = false
+                }
+            }
+        })
+    }
+
+    fun passwordTextChanged(passwordTextInputText: TextInputEditText) {
+        passwordTextInputText.addTextChangedListener(object :
+            TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun afterTextChanged(p0: Editable?) {
+                formErrors.clear()
+                isValid = true
+                if (!validatePassword()) {
+                    formErrors.add(FormErrorsEnum.INVALID_PASSWORD)
+                    isValid = false
+                }
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        })
+    }
 
     fun onLoginClick() {
         if (showHide.value == true) {
@@ -44,7 +111,7 @@ class LoginViewModel(
 
     private fun validateLogin() {
         formErrors.clear()
-        var isValid = true
+        isValid = true
         if (!Validations.emailValidation(email.value.toString())) {
             formErrors.add(FormErrorsEnum.INVALID_EMAIL)
             isValid = false
@@ -58,12 +125,9 @@ class LoginViewModel(
         }
     }
 
-    private fun loginUser() {
-    }
-
     private fun validateRegister() {
         formErrors.clear()
-        var isValid = true
+        isValid = true
         if (!Validations.nameValidation(username.value.toString())) {
             formErrors.add(FormErrorsEnum.MISSING_NAME)
             isValid = false
@@ -86,10 +150,10 @@ class LoginViewModel(
         val user = User(
             userEmail = email.value.toString(),
             userName = username.value.toString(),
-            userPassword = password.value.toString()
+            userPassword = encryptionUtils.md5(password.value.toString())
         )
 
-        userRepository.savePrimaryUser(user)
+        userRepository.registerUser(user)
             .subscribeOn(rxSchedulers.background())
             .observeOn(rxSchedulers.androidUI())
             .subscribe({
@@ -106,6 +170,32 @@ class LoginViewModel(
                 ).show()
             })
             .disposeBy(compositeDisposable)
+    }
+
+    private fun loginUser() {
+        val user = User(
+            userEmail = email.value.toString(),
+            userPassword = encryptionUtils.md5(password.value.toString())
+        )
+
+        userRepository.loginUser(user.userEmail, user.userPassword)
+            .subscribeOn(rxSchedulers.background())
+            .observeOn(rxSchedulers.androidUI())
+            .subscribe({
+
+                Toast.makeText(resourceUtils.getContext(), resourceUtils.getStringResource(R.string.login_success), Toast.LENGTH_SHORT).show()
+                goToHomeScreen(activity)
+            }, {
+                Toast.makeText(
+                    resourceUtils.getContext(),
+                    resourceUtils.getStringResource(R.string.login_failed),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }).disposeBy(compositeDisposable)
+    }
+
+    private fun goToHomeScreen(activity: LoginActivity) {
+        HomeActivity.startHome(activity)
     }
 
     private fun validatePassword(): Boolean {

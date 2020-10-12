@@ -17,5 +17,8 @@ interface UserDao {
     fun getUserIdByEmail(email: String): Single<Long>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun saveUser(user: User): Single<Long>
+    fun registerUser(user: User): Single<Long>
+
+    @Query("SELECT * FROM users WHERE userEmail = :user_email AND userPassword = :user_password")
+    fun loginUser(user_email: String, user_password: String): Single<User>
 }

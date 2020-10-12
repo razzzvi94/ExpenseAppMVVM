@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.expenseappmvvm.R
 import com.example.expenseappmvvm.databinding.ActivityLoginBinding
+import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.ext.android.get
 
 class LoginActivity : AppCompatActivity() {
@@ -18,7 +19,15 @@ class LoginActivity : AppCompatActivity() {
             viewModel = this@LoginActivity.loginViewModel
             lifecycleOwner = this@LoginActivity
         }
-        loginViewModel.onCreate()
+        loginViewModel.onCreate(this)
+        loginViewModel.nameTextChanged(edit_text_name_register)
+        loginViewModel.emailTextChanged(edit_text_email_login)
+        loginViewModel.passwordTextChanged(edit_text_password_login)
+
+        @Override
+        fun onBackPressed() {
+            super.onBackPressed()
+        }
     }
 
     companion object {

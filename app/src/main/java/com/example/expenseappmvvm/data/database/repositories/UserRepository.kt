@@ -5,8 +5,12 @@ import com.example.expenseappmvvm.data.database.entities.User
 import io.reactivex.Single
 
 class UserRepository(private val db: AppDatabase) {
-    fun savePrimaryUser(user: User):Single<Long>{
-        return db.userDao().saveUser(user)
+    fun registerUser(user: User):Single<Long>{
+        return db.userDao().registerUser(user)
+    }
+
+    fun loginUser(userEmail: String, userPassword: String): Single<User>{
+        return db.userDao().loginUser(userEmail, userPassword)
     }
 
     fun getUserId(email: String): Single<Long> {
