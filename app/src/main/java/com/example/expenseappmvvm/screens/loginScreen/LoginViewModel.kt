@@ -19,6 +19,7 @@ import io.reactivex.disposables.CompositeDisposable
 class LoginViewModel(
     private val resourceUtils: ResourceUtils,
     private val userRepository: UserRepository,
+    private val sharedPref: Preferences,
     private val rxSchedulers: AppRxSchedulers,
     private val compositeDisposable: CompositeDisposable
 ) : ViewModel() {
@@ -98,6 +99,7 @@ class LoginViewModel(
             .observeOn(rxSchedulers.androidUI())
             .subscribe({
                 Toast.makeText(resourceUtils.getContext(), resourceUtils.getStringResource(R.string.login_success), Toast.LENGTH_SHORT).show()
+                sharedPref.write(Constants.USER_ID, it.userId)
                 goToHomeScreen.call()
             }, {
                 Toast.makeText(resourceUtils.getContext(), resourceUtils.getStringResource(R.string.login_failed), Toast.LENGTH_SHORT).show()
