@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.expenseappmvvm.R
 import com.example.expenseappmvvm.databinding.ActivityLoginBinding
+import com.example.expenseappmvvm.screens.mainScreen.HomeActivity
+import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.ext.android.get
 
 class LoginActivity : AppCompatActivity() {
@@ -18,7 +20,18 @@ class LoginActivity : AppCompatActivity() {
             viewModel = this@LoginActivity.loginViewModel
             lifecycleOwner = this@LoginActivity
         }
-        loginViewModel.onCreate()
+
+        loginViewModel.apply {
+            nameTextChanged(edit_text_name_register)
+            emailTextChanged(edit_text_email_login)
+            passwordTextChanged(edit_text_password_login)
+        }
+
+        observeLiveData()
+    }
+
+    private fun observeLiveData() {
+        loginViewModel.goToHomeScreen.observe(this, { HomeActivity.startHome(this) })
     }
 
     companion object {
