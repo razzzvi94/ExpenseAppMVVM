@@ -1,13 +1,34 @@
 package com.example.expenseappmvvm.screens.splashScreen
 
-import android.os.Handler
 import androidx.lifecycle.ViewModel
+import com.example.expenseappmvvm.data.rx.AppRxSchedulers
 import com.example.expenseappmvvm.screens.loginScreen.LoginActivity
+import com.example.expenseappmvvm.screens.mainScreen.HomeActivity
+import com.example.expenseappmvvm.utils.Constants
+import com.example.expenseappmvvm.utils.Preferences
+import com.example.expenseappmvvm.utils.disposeBy
+import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import java.util.concurrent.TimeUnit
 
-class SplashViewModel() : ViewModel() {
-    fun goToLogin(activity: SplashActivity) {
-        Handler().postDelayed({
-            LoginActivity.startLogin(activity)
-        }, 3000)
+class SplashViewModel(
+    private val rxSchedulers: AppRxSchedulers,
+    private val sharedPref: Preferences,
+    private val compositeDisposable: CompositeDisposable
+) : ViewModel() {
+    fun verifyUserLoggedIn(activity: SplashActivity) {
+        Observable.timer(SPLASH_SCREEN_DURATION, TimeUnit.SECONDS)
+            .observeOn(rxSchedulers.androidUI())
+            .subscribe {
+                if (sharedPref.hasKey(Constants.USER_ID)) {
+                    HomeActivity.startHome(activity)
+                } else {
+                    LoginActivity.startLogin(activity)
+                }
+            }.disposeBy(compositeDisposable)
+    }
+
+    companion object {
+        const val SPLASH_SCREEN_DURATION = 3L
     }
 }

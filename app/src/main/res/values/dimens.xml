@@ -41,6 +41,8 @@
     <dimen name="radius_4dp">4dp</dimen>
     <dimen name="radius_6dp">6dp</dimen>
     <dimen name="space_102dp">102dp</dimen>
+    <dimen name="space_130dp">130dp</dimen>
+    <dimen name="space_195dp">195dp</dimen>
     <dimen name="space_19dp">19dp</dimen>
     <dimen name="space_90dp">90dp</dimen>
     <dimen name="space_56dp">56dp</dimen>
@@ -92,6 +94,7 @@
     <dimen name="space_66dp">66dp</dimen>
     <dimen name="space_69dp">69dp</dimen>
     <dimen name="space_55dp">55dp</dimen>
+    <dimen name="space_65dp">65dp</dimen>
     <dimen name="space_29dp">29dp</dimen>
     <dimen name="text_15sp">15sp</dimen>
     <dimen name="space_165dp">165dp</dimen>
