@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.example.expenseappmvvm.screens.mainScreen.fragments.budget.BudgetFragmentViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite">
+
+        <TextView
+            android:id="@+id/base_information_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_17dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/base_information"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/current_balance_imageView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/space_39dp"
+            android:layout_marginTop="@dimen/space_10dp"
+            android:background="@drawable/current_balance_box"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/base_information_textView"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <TextView
+            android:id="@+id/current_balance_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/current_balance"
+            android:textColor="@color/colorGreen"
+            android:textSize="@dimen/text_16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/current_balance_imageView"
+            app:layout_constraintStart_toStartOf="@+id/current_balance_imageView"
+            app:layout_constraintTop_toTopOf="@+id/current_balance_imageView" />
+
+        <TextView
+            android:id="@+id/balance_value_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/space_8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="0.0"
+            android:textColor="@color/colorGreen"
+            android:textSize="@dimen/text_16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/current_balance_imageView"
+            app:layout_constraintEnd_toEndOf="@+id/current_balance_imageView"
+            app:layout_constraintTop_toTopOf="@+id/current_balance_imageView" />
+
+        <ImageView
+            android:id="@+id/today_expenses_imageView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/space_39dp"
+            android:layout_marginTop="@dimen/space_8dp"
+            android:background="@drawable/today_expenses_box"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/current_balance_imageView"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <TextView
+            android:id="@+id/today_expenses_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/today_expenses"
+            android:textColor="@color/colorRed"
+            android:textSize="@dimen/text_16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/today_expenses_imageView"
+            app:layout_constraintStart_toStartOf="@+id/today_expenses_imageView"
+            app:layout_constraintTop_toTopOf="@+id/today_expenses_imageView" />
+
+        <TextView
+            android:id="@+id/today_expense_value_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/space_8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="0.0"
+            android:textColor="@color/colorRed"
+            android:textSize="@dimen/text_16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/today_expenses_imageView"
+            app:layout_constraintEnd_toEndOf="@+id/today_expenses_imageView"
+            app:layout_constraintTop_toTopOf="@+id/today_expenses_imageView" />
+
+        <TextView
+            android:id="@+id/week_expenses_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_11dp"
+            android:fontFamily="@font/roboto_normal"
+            android:text="@string/this_week_expenses"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/today_expenses_imageView" />
+
+        <TextView
+            android:id="@+id/week_expense_value_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_11dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="0.0"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.93"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/today_expenses_imageView" />
+
+        <TextView
+            android:id="@+id/month_expenses_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_22dp"
+            android:fontFamily="@font/roboto_normal"
+            android:text="@string/this_month_expenses"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/week_expenses_textView" />
+
+        <TextView
+            android:id="@+id/month_expense_value_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_22dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="0.0"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.93"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/week_expenses_textView" />
+
+        <TextView
+            android:id="@+id/details_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_12dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/details"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/month_expenses_textView" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/space_25dp"
+            android:layout_marginTop="@dimen/space_12dp"
+            android:background="@drawable/btn_login"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="@string/details"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.93"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/month_expense_value_textView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

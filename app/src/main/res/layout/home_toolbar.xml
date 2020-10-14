@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="userName" type="String"/>
+    </data>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/home_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorLightGray"
+        android:elevation="@dimen/space_20dp"
+        app:contentInsetStartWithNavigation="0dp"
+        app:titleTextColor="@color/colorBlack">
+
+        <ImageView
+            android:id="@+id/button_add_action"
+            android:layout_width="@dimen/space_45dp"
+            android:layout_height="@dimen/space_45dp"
+            android:layout_gravity="start"
+            android:src="@drawable/ic_navigation_drawer" />
+
+        <TextView
+            android:id="@+id/userName_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_35dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@{userName}"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_20sp"
+            tools:text="John Deer" />
+
+    </androidx.appcompat.widget.Toolbar>
+</layout>

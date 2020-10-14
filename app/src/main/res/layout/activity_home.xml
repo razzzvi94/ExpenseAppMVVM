@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.example.expenseappmvvm.screens.mainScreen.HomeViewModel" />
@@ -15,12 +17,28 @@
         android:layout_height="match_parent"
         tools:context=".screens.mainScreen.HomeActivity">
 
+        <include
+            android:id="@+id/toolBar"
+            layout="@layout/home_toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:userName="@{viewModel.userName}" />
+
         <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/bottomLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/space_0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolBar">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/fragmentViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <com.google.android.material.bottomappbar.BottomAppBar
                 android:id="@+id/bottom_app_bar"
@@ -42,9 +60,18 @@
                     <LinearLayout
                         android:id="@+id/budgetTab"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="@{()->viewModel.budgetTabOnClick()}"
                         android:orientation="vertical">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/budgetIndicator"
+                            android:layout_width="@dimen/space_100dp"
+                            android:layout_height="@dimen/space_3dp"
+                            app:layout_anchor="@id/bottom_app_bar"
+                            android:layout_marginBottom="@dimen/space_15dp"
+                            android:backgroundTint="@{viewModel.isBudgetTabSelected? @color/colorTabIndicator: @color/colorGreen}"/>
 
                         <ImageView
                             android:id="@+id/budget_image"
@@ -65,15 +92,24 @@
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="?attr/actionBarSize"/>
+                        android:layout_height="?attr/actionBarSize"
+                        android:layout_weight="1" />
 
                     <LinearLayout
                         android:id="@+id/expenseTab"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="@{()->viewModel.expenseTabOnClick()}"
                         android:orientation="vertical">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/expenseIndicator"
+                            android:layout_width="@dimen/space_100dp"
+                            android:layout_height="@dimen/space_3dp"
+                            app:layout_anchor="@id/bottom_app_bar"
+                            android:layout_marginBottom="@dimen/space_15dp"
+                            android:backgroundTint="@{viewModel.isExpenseTabSelected? @color/colorTabIndicator: @color/colorGreen}"/>
 
                         <ImageView
                             android:id="@+id/expense_image"
@@ -135,12 +171,12 @@
                 android:id="@+id/fabMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="45dp"
                 android:contentDescription="@string/menu_button"
                 android:src="@drawable/logo"
                 app:backgroundTint="@color/colorOrange"
                 app:layout_anchor="@id/bottom_app_bar"
-                app:tint="@android:color/white"
-                android:layout_marginBottom="45dp"/>
+                app:tint="@android:color/white" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
