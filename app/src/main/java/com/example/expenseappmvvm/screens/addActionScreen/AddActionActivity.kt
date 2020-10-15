@@ -8,16 +8,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.DatePicker
 import android.widget.TimePicker
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.expenseappmvvm.screens.addActionScreen.adapter.models.DateTime
 import com.example.expenseappmvvm.R
 import com.example.expenseappmvvm.databinding.ActivityAddActionBinding
 import com.example.expenseappmvvm.screens.addActionScreen.adapter.CategoryAdapter
 import com.example.expenseappmvvm.screens.addActionScreen.adapter.models.CategoryItem
+import com.example.expenseappmvvm.screens.addActionScreen.adapter.models.DateTime
 import com.example.expenseappmvvm.screens.addActionScreen.enum.CategoryEnum
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_add_action.*
@@ -29,7 +28,7 @@ class AddActionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListene
     TimePickerDialog.OnTimeSetListener {
 
     private val addActionViewModel: AddActionViewModel = get()
-    var dateTime = DateTime()
+    private var dateTime = DateTime()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +41,6 @@ class AddActionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListene
         initToolbar()
         observeLiveData()
         initCategoryGrid(addActionViewModel.onItemClick, setCategoryData())
-        addActionViewModel.itemClickAction()
-        saveTransaction()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -52,19 +49,21 @@ class AddActionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListene
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        dateTime.savedDay = dayOfMonth
-        dateTime.savedMonth = month + 1
-        dateTime.savedYear = year
-
+        dateTime.apply {
+            savedDay = dayOfMonth
+            savedMonth = month + 1
+            savedYear = year
+        }
         getDateTimeCalendar()
-
         TimePickerDialog(this, this, dateTime.hour, dateTime.minute, true).show()
     }
 
     @SuppressLint("SetTextI18n")
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-        dateTime.savedHour = hourOfDay
-        dateTime.savedMinute = minute
+        dateTime.apply {
+            savedHour = hourOfDay
+            savedMinute = minute
+        }
 
         date_EditText.setText(
             dateTime.savedYear.toString() + "-" +
@@ -85,9 +84,9 @@ class AddActionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListene
         val toolbar = screenToolbar as Toolbar
         this.run {
             setSupportActionBar(toolbar)
-            supportActionBar?.setDisplayShowTitleEnabled(false)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowHomeEnabled(true)
+            supportActionBar?.let { it.setDisplayShowTitleEnabled(false) }
+            supportActionBar?.let { it.setDisplayHomeAsUpEnabled(true) }
+            supportActionBar?.let { it.setDisplayShowHomeEnabled(true) }
         }
         toolbar.run {
             title = this@AddActionActivity.getString(R.string.add_action)
@@ -97,11 +96,13 @@ class AddActionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListene
 
     private fun getDateTimeCalendar() {
         val cal = Calendar.getInstance()
-        dateTime.day = cal.get(Calendar.DAY_OF_MONTH)
-        dateTime.month = cal.get(Calendar.MONTH)
-        dateTime.year = cal.get(Calendar.YEAR)
-        dateTime.hour = cal.get(Calendar.HOUR)
-        dateTime.minute = cal.get(Calendar.MINUTE)
+        dateTime.apply {
+            day = cal.get(Calendar.DAY_OF_MONTH)
+            month = cal.get(Calendar.MONTH)
+            year = cal.get(Calendar.YEAR)
+            hour = cal.get(Calendar.HOUR)
+            minute = cal.get(Calendar.MINUTE)
+        }
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -122,8 +123,10 @@ class AddActionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListene
         getDateTimeCalendar()
         val datePickerDialog =
             DatePickerDialog(this, this, dateTime.year, dateTime.month, dateTime.day)
-        datePickerDialog.show()
-        datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
+        datePickerDialog.apply {
+            show()
+            datePicker.maxDate = System.currentTimeMillis()
+        }
     }
 
     private fun initCategoryGrid(
@@ -146,22 +149,6 @@ class AddActionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListene
             list.add(CategoryItem(it.getIcon(this), it.getName(this), selected))
         }
         return list
-    }
-
-    private fun saveTransaction() {//make it observe live data
-        if (date_EditText.text.isEmpty() || amount_EditText.text.isEmpty()) {
-            addActionViewModel.emptyField.value = true
-        } else {
-            addActionViewModel.emptyField.value = false
-            if (addActionViewModel.categorySelected == this.getString(R.string.income)) {
-                addActionViewModel.saveIncome.value = true
-                Toast.makeText(this, this.getString(R.string.budget_saved), Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-                Toast.makeText(this, this.getString(R.string.expense_saved), Toast.LENGTH_SHORT)
-                    .show()
-            }
-        }
     }
 
     companion object {

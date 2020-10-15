@@ -24,11 +24,15 @@ class AddActionViewModel(
     val emptyField = MutableLiveData<Boolean>().apply { value = true }
     val saveIncome = MutableLiveData<Boolean>().apply { value = true }
 
+    init {
+        itemClickAction()
+    }
+
     fun selectDate() {
         openDatePicker.call()
     }
 
-    fun itemClickAction() {
+    private fun itemClickAction() {
         onItemClick.observeOn(rxSchedulers.androidUI())
             .subscribe({ item ->
                 categorySelected = item.categoryName.toLowerCase().capitalize()
@@ -57,4 +61,20 @@ class AddActionViewModel(
             ).show()
         }
     }
+
+//    private fun saveTransaction() {//make it observe live data
+//        if (date_EditText.text.isEmpty() || amount_EditText.text.isEmpty()) {
+//            addActionViewModel.emptyField.value = true
+//        } else {
+//            addActionViewModel.emptyField.value = false
+//            if (addActionViewModel.categorySelected == this.getString(R.string.income)) {
+//                addActionViewModel.saveIncome.value = true
+//                Toast.makeText(this, this.getString(R.string.budget_saved), Toast.LENGTH_SHORT)
+//                    .show()
+//            } else {
+//                Toast.makeText(this, this.getString(R.string.expense_saved), Toast.LENGTH_SHORT)
+//                    .show()
+//            }
+//        }
+//    }
 }
