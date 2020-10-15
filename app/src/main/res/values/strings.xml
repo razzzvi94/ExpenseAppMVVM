@@ -92,4 +92,5 @@
     <string name="password_err_whiteSpace">Password must not contain spaces</string>
     <string name="password_err_length">Password must be at least 6 characters long</string>
     <string name="menu_button">Menu Button</string>
+    <string name="save">Save</string>
 </resources>

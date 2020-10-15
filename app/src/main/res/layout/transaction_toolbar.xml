@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.expenseappmvvm.screens.addActionScreen.AddActionViewModel" />
+    </data>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/transaction_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorLightGray"
+        android:elevation="@dimen/space_20dp"
+        app:contentInsetStartWithNavigation="0dp"
+        app:titleTextColor="@color/colorBlack">
+
+        <TextView
+            android:id="@+id/button_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginEnd="@dimen/space_18dp"
+            android:fontFamily="@font/roboto_medium"
+            android:onClick="@{()->viewModel.saveAction()}"
+            android:text="@string/save"
+            android:textColor="@color/colorGreen"
+            android:textSize="@dimen/text_18sp" />
+
+    </androidx.appcompat.widget.Toolbar>
+</layout>

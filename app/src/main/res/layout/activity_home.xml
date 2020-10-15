@@ -54,7 +54,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/space_70dp"
                     android:orientation="horizontal"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="@dimen/space_17dp"
                     android:gravity="start"
                     android:weightSum="1">
 
@@ -71,7 +71,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/space_3dp"
                             app:layout_anchor="@id/bottom_app_bar"
-                            android:elevation="@dimen/space_5dp"
                             android:background="@color/colorOrange"
                             android:visibility="@{viewModel.isExpenseTabSelected()? View.GONE: View.VISIBLE}"/>
 
@@ -110,7 +109,6 @@
                             android:id="@+id/expenseIndicator"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/space_3dp"
-                            android:elevation="@dimen/space_5dp"
                             android:background="@color/colorOrange"
                             app:layout_anchor="@id/bottom_app_bar"
                             android:visibility="@{viewModel.isExpenseTabSelected? View.VISIBLE: View.GONE}"/>
