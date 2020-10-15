@@ -23,7 +23,6 @@ class HomeViewModel(
     var goToLogout = SingleLiveEvent<Any>()
     var goToBudgetFragment = SingleLiveEvent<Any>()
     var goToExpenseFragment = SingleLiveEvent<Any>()
-    var isBudgetTabSelected = MutableLiveData<Boolean>().apply { value = true }
     var isExpenseTabSelected = MutableLiveData<Boolean>().apply { value = false }
 
     val userName = MutableLiveData<String>().apply { value = Constants.EMPTY_STRING }
@@ -42,14 +41,12 @@ class HomeViewModel(
     }
 
     fun budgetTabOnClick() {
-        isBudgetTabSelected.value = true
         isExpenseTabSelected.value = false
         goToBudgetFragment.call()
     }
 
     fun expenseTabOnClick() {
         isExpenseTabSelected.value = true
-        isBudgetTabSelected.value = false
         goToExpenseFragment.call()
     }
 

@@ -42,10 +42,10 @@
 
             <com.google.android.material.bottomappbar.BottomAppBar
                 android:id="@+id/bottom_app_bar"
-                style="@style/Widget.MaterialComponents.BottomAppBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
+                android:gravity="start"
                 android:theme="@style/AppThemeMaterial"
                 app:backgroundTint="@color/colorGreen"
                 app:fabAlignmentMode="center">
@@ -53,31 +53,34 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/space_70dp"
-                    android:gravity="center"
                     android:orientation="horizontal"
-                    android:weightSum="3">
+                    android:layout_marginEnd="20dp"
+                    android:gravity="start"
+                    android:weightSum="1">
 
                     <LinearLayout
                         android:id="@+id/budgetTab"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.36"
                         android:onClick="@{()->viewModel.budgetTabOnClick()}"
                         android:orientation="vertical">
 
-                        <androidx.cardview.widget.CardView
+                        <View
                             android:id="@+id/budgetIndicator"
-                            android:layout_width="@dimen/space_100dp"
+                            android:layout_width="match_parent"
                             android:layout_height="@dimen/space_3dp"
                             app:layout_anchor="@id/bottom_app_bar"
-                            android:layout_marginBottom="@dimen/space_15dp"
-                            android:backgroundTint="@{viewModel.isBudgetTabSelected? @color/colorTabIndicator: @color/colorGreen}"/>
+                            android:elevation="@dimen/space_5dp"
+                            android:background="@color/colorOrange"
+                            android:visibility="@{viewModel.isExpenseTabSelected()? View.GONE: View.VISIBLE}"/>
 
                         <ImageView
                             android:id="@+id/budget_image"
                             android:layout_width="@dimen/space_30dp"
                             android:layout_height="@dimen/space_30dp"
                             android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/space_15dp"
                             android:src="@drawable/ic_budget" />
 
                         <TextView
@@ -93,29 +96,31 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="?attr/actionBarSize"
-                        android:layout_weight="1" />
+                        android:layout_weight="0.3" />
 
                     <LinearLayout
                         android:id="@+id/expenseTab"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.37"
                         android:onClick="@{()->viewModel.expenseTabOnClick()}"
                         android:orientation="vertical">
 
-                        <androidx.cardview.widget.CardView
+                        <View
                             android:id="@+id/expenseIndicator"
-                            android:layout_width="@dimen/space_100dp"
+                            android:layout_width="match_parent"
                             android:layout_height="@dimen/space_3dp"
+                            android:elevation="@dimen/space_5dp"
+                            android:background="@color/colorOrange"
                             app:layout_anchor="@id/bottom_app_bar"
-                            android:layout_marginBottom="@dimen/space_15dp"
-                            android:backgroundTint="@{viewModel.isExpenseTabSelected? @color/colorTabIndicator: @color/colorGreen}"/>
+                            android:visibility="@{viewModel.isExpenseTabSelected? View.VISIBLE: View.GONE}"/>
 
                         <ImageView
                             android:id="@+id/expense_image"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/space_15dp"
                             android:src="@drawable/ic_expenses" />
 
                         <TextView

@@ -78,12 +78,10 @@ class HomeActivity : AppCompatActivity() {
             override fun onPageSelected(position: Int) {
                 when(position){
                     0 -> {
-                        homeViewModel.isBudgetTabSelected.value = true
                         homeViewModel.isExpenseTabSelected.value = false
                     }
                     1 ->{
                         homeViewModel.isExpenseTabSelected.value = true
-                        homeViewModel.isBudgetTabSelected.value = false
                     }
                 }
             }

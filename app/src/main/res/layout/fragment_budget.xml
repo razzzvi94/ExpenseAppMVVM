@@ -176,16 +176,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/month_expenses_textView" />
 
-        <Button
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/space_25dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_12dp"
             android:background="@drawable/btn_login"
             android:fontFamily="@font/montserrat_regular"
-            android:text="@string/details"
+            android:text="See More"
+            android:padding="@dimen/space_5dp"
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/text_16sp"
+            android:textSize="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.93"
             app:layout_constraintStart_toStartOf="parent"
