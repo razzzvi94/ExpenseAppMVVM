@@ -12,4 +12,8 @@ class UserRepository(private val db: AppDatabase) {
     fun loginUser(userEmail: String, userPassword: String): Single<User>{
         return db.userDao().loginUser(userEmail, userPassword)
     }
+
+    fun getUserName(userId: Long): Single<String> {
+        return db.userDao().getUserName(userId)
+    }
 }

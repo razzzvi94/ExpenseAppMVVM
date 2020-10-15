@@ -10,5 +10,6 @@ data class User(
     @PrimaryKey(autoGenerate = true) var userId: Long = 0,
     @ColumnInfo(name = "userName") var userName: String = "",
     @ColumnInfo(name = "userEmail") var userEmail: String = "",
-    @ColumnInfo(name = "userPassword") var userPassword: String = ""
+    @ColumnInfo(name = "userPassword") var userPassword: String = "",
+    @ColumnInfo(name = "userImage") var userImage: ByteArray = ByteArray(0)
 )
