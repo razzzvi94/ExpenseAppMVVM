@@ -1,6 +1,7 @@
 package com.example.expenseappmvvm.app.dependencies
 
 import com.example.expenseappmvvm.data.database.RoomDB
+import com.example.expenseappmvvm.data.database.repositories.TransactionRepository
 import com.example.expenseappmvvm.data.database.repositories.UserRepository
 import com.example.expenseappmvvm.utils.Preferences
 import com.example.expenseappmvvm.utils.resourceUtils.ResourceUtils
@@ -19,4 +20,5 @@ val preferencesModule: Module = module {
 
 val dataModules: Module = module {
     single { UserRepository(get()) }
+    single { TransactionRepository(get()) }
 }

@@ -4,8 +4,12 @@ import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.expenseappmvvm.R
+import com.example.expenseappmvvm.data.database.entities.Transaction
+import com.example.expenseappmvvm.data.database.repositories.TransactionRepository
 import com.example.expenseappmvvm.data.rx.AppRxSchedulers
 import com.example.expenseappmvvm.screens.addActionScreen.adapter.models.CategoryItem
+import com.example.expenseappmvvm.utils.Constants
+import com.example.expenseappmvvm.utils.Preferences
 import com.example.expenseappmvvm.utils.SingleLiveEvent
 import com.example.expenseappmvvm.utils.disposeBy
 import com.example.expenseappmvvm.utils.resourceUtils.ResourceUtils
@@ -16,13 +20,22 @@ import timber.log.Timber
 class AddActionViewModel(
     private val resourceUtils: ResourceUtils,
     private val rxSchedulers: AppRxSchedulers,
+    private val sharedPref: Preferences,
+    private val transactionRepository: TransactionRepository,
     private val compositeDisposable: CompositeDisposable
 ) : ViewModel() {
     var openDatePicker = SingleLiveEvent<Any>()
+    var goToHomeScreen = SingleLiveEvent<Any>()
     val onItemClick = PublishSubject.create<CategoryItem>()
     var categorySelected: String = resourceUtils.getStringResource(R.string.income)
-    val emptyField = MutableLiveData<Boolean>().apply { value = true }
-    val saveIncome = MutableLiveData<Boolean>().apply { value = true }
+
+    val dateTimeText: MutableLiveData<String> = MutableLiveData()
+    val amountText: MutableLiveData<String> = MutableLiveData()
+    val detailsText: MutableLiveData<String> = MutableLiveData()
+    var timestamp: Long = 0L
+
+    private var defaultDetailsText: String = ""
+    var defaultDetailsImage: ByteArray = ByteArray(0)
 
     init {
         itemClickAction()
@@ -43,15 +56,21 @@ class AddActionViewModel(
     }
 
     fun saveAction() {
-        if (emptyField.value == false) {
-            if (saveIncome.value == true) {
-                //saveIncomeTransaction()
-                Toast.makeText(resourceUtils.getContext(), "Income saved now", Toast.LENGTH_SHORT)
-                    .show()
+        if (dateTimeText.value != null && amountText.value != null) {
+            if (categorySelected == resourceUtils.getStringResource(R.string.income)) {
+                saveTransaction()
+                Toast.makeText(
+                    resourceUtils.getContext(),
+                    resourceUtils.getStringResource(R.string.budget_saved),
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
-                //saveExpenseTransaction()
-                Toast.makeText(resourceUtils.getContext(), "Expense saved now", Toast.LENGTH_SHORT)
-                    .show()
+                saveTransaction()
+                Toast.makeText(
+                    resourceUtils.getContext(),
+                    resourceUtils.getStringResource(R.string.expense_saved),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         } else {
             Toast.makeText(
@@ -60,21 +79,37 @@ class AddActionViewModel(
                 Toast.LENGTH_SHORT
             ).show()
         }
+        goToHomeScreen.call()
     }
 
-//    private fun saveTransaction() {//make it observe live data
-//        if (date_EditText.text.isEmpty() || amount_EditText.text.isEmpty()) {
-//            addActionViewModel.emptyField.value = true
-//        } else {
-//            addActionViewModel.emptyField.value = false
-//            if (addActionViewModel.categorySelected == this.getString(R.string.income)) {
-//                addActionViewModel.saveIncome.value = true
-//                Toast.makeText(this, this.getString(R.string.budget_saved), Toast.LENGTH_SHORT)
-//                    .show()
-//            } else {
-//                Toast.makeText(this, this.getString(R.string.expense_saved), Toast.LENGTH_SHORT)
-//                    .show()
-//            }
-//        }
-//    }
+    private fun saveTransaction() {
+        sharedPref.read(Constants.USER_ID, 0L)?.run {
+            val transaction = getTransaction(this, categorySelected)
+            transactionRepository.insertTransaction(transaction)
+                .subscribeOn(rxSchedulers.background())
+                .observeOn(rxSchedulers.androidUI())
+                .subscribe({
+                    //showHomeScreen()
+                }, {
+                    Timber.e(it.localizedMessage)
+                })
+                .disposeBy(compositeDisposable)
+        }
+    }
+
+    private fun getTransaction(userId: Long, category: String): Transaction {
+        if (detailsText.value != null) {
+            defaultDetailsText = detailsText.value.toString()
+        }
+        val amount = if (amountText.value == null) 0.0 else amountText.value.toString()
+            .toDouble()
+        return Transaction(
+            userId = userId,
+            transactionDate = timestamp,
+            transactionAmount = amount,
+            transactionCategory = category,
+            transactionDetails = defaultDetailsText,
+            transactionImage = defaultDetailsImage
+        )
+    }
 }
