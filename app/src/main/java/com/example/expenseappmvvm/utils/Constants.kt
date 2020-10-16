@@ -8,4 +8,21 @@ object Constants {
     const val EMPTY_STRING = ""
     const val NULL_STRING = "null"
     const val SPECIAL_CHAR_STRING = "!@#$%&*()'+,-./:;<=>?[]^_`{|}"
+
+    //Numbers
+    const val SPLASH_TIME_OUT: Long = 2000
+    const val ADD_LOCAL_IMAGE = 420
+    const val CAMERA_IMAGE = 240
+    const val PRIVATE_MODE = 0
+    const val FIRST_HOUR = 0
+    const val FIRST_MINUTE = 0
+    const val FIRST_SECOND = 0
+    const val LAST_HOUR = 23
+    const val LAST_MINUTE = 59
+    const val LAST_SECOND = 59
+    const val oneDayMs = 24 * 60 * 60 * 1000
+    const val twoDayMs = 48 * 60 * 60 * 1000
+
+    //Throttle
+    const val THROTTLE_DURATION = 1L
 }

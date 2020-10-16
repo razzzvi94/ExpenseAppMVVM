@@ -1,18 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".screens.addActionScreen.AddActionActivity">
+    xmlns:bind="http://schemas.android.com/tools">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Action Activity"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+    <data>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.example.expenseappmvvm.screens.addActionScreen.AddActionViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:focusableInTouchMode="true">
+
+            <include
+                android:id="@+id/screenToolbar"
+                layout="@layout/transaction_toolbar"
+                bind:viewModel="@{viewModel}"/>
+
+            <TextView
+                android:id="@+id/date_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_17dp"
+                android:layout_marginTop="@dimen/space_22dp"
+                android:fontFamily="@font/roboto_normal"
+                android:text="@string/date"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/screenToolbar" />
+
+            <EditText
+                android:id="@+id/date_EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_17dp"
+                android:layout_marginTop="@dimen/space_7dp"
+                android:layout_marginEnd="@dimen/space_16dp"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="@string/hint_date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date_TextView"
+                android:onClick="@{()->viewModel.selectDate()}"/>
+
+            <TextView
+                android:id="@+id/amount_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_17dp"
+                android:layout_marginTop="@dimen/space_25dp"
+                android:fontFamily="@font/roboto_normal"
+                android:text="@string/amount"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date_EditText" />
+
+            <EditText
+                android:id="@+id/amount_EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_17dp"
+                android:layout_marginTop="@dimen/space_7dp"
+                android:layout_marginEnd="@dimen/space_16dp"
+                android:focusableInTouchMode="true"
+                android:hint="@string/hint_amount"
+                android:focusable="true"
+                android:inputType="number"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/amount_TextView" />
+
+            <TextView
+                android:id="@+id/category_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_17dp"
+                android:layout_marginTop="@dimen/space_25dp"
+                android:fontFamily="@font/roboto_normal"
+                android:text="@string/category"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/amount_EditText" />
+
+            <RelativeLayout
+                android:id="@+id/grid_relative_layout"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/category_TextView">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/grid_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/space_17dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/space_17dp"
+                    android:nestedScrollingEnabled="false" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/details_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_17dp"
+                android:layout_marginTop="@dimen/space_13dp"
+                android:fontFamily="@font/roboto_normal"
+                android:text="@string/details"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/grid_relative_layout" />
+
+            <EditText
+                android:id="@+id/details_EditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_17dp"
+                android:layout_marginTop="@dimen/space_7dp"
+                android:focusableInTouchMode="true"
+                android:hint="@string/hint_details"
+                android:inputType="text"
+                android:focusable="true"
+                app:layout_constraintEnd_toStartOf="@+id/add_image"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/details_TextView" />
+
+            <ImageView
+                android:id="@+id/add_image"
+                android:layout_width="@dimen/space_36dp"
+                android:layout_height="@dimen/space_36dp"
+                android:layout_marginStart="@dimen/space_9dp"
+                android:layout_marginTop="@dimen/space_7dp"
+                android:layout_marginEnd="@dimen/space_13dp"
+                android:src="@drawable/ic_add_photo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@+id/details_EditText"
+                app:layout_constraintTop_toBottomOf="@+id/details_TextView" />
+
+            <ImageView
+                android:id="@+id/details_ImageView"
+                android:layout_width="@dimen/space_208dp"
+                android:layout_height="@dimen/space_208dp"
+                android:layout_marginTop="@dimen/space_5dp"
+                android:layout_marginBottom="@dimen/space_22dp"
+                android:background="@drawable/image_placeholder"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/delete"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/details_EditText" />
+
+            <ImageView
+                android:id="@+id/delete"
+                android:layout_width="@dimen/space_27dp"
+                android:layout_height="@dimen/space_27dp"
+                android:layout_marginTop="@dimen/space_90dp"
+                android:background="@drawable/ic_delete"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@+id/details_ImageView"
+                app:layout_constraintTop_toBottomOf="@+id/details_EditText" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</layout>

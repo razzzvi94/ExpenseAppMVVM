@@ -3,6 +3,7 @@ package com.example.expenseappmvvm.utils.bidingAdapters
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 
@@ -16,4 +17,9 @@ fun bindMarginTop(view: View, dimen: Int) {
     val layoutParams = view.layoutParams as ViewGroup.MarginLayoutParams
     layoutParams.topMargin = dimen
     view.layoutParams = layoutParams
+}
+
+@BindingAdapter("android:src")
+fun setImageViewResource(imageView: ImageView, resource: Int) {
+    imageView.setImageResource(resource)
 }
