@@ -1,8 +1,10 @@
 package com.example.expenseappmvvm.app.dependencies
 
 import com.example.expenseappmvvm.data.database.RoomDB
+import com.example.expenseappmvvm.data.database.repositories.CurrencyRepository
 import com.example.expenseappmvvm.data.database.repositories.TransactionRepository
 import com.example.expenseappmvvm.data.database.repositories.UserRepository
+import com.example.expenseappmvvm.network.RestServiceModule
 import com.example.expenseappmvvm.utils.Preferences
 import com.example.expenseappmvvm.utils.resourceUtils.ResourceUtils
 import org.koin.android.ext.koin.androidContext
@@ -21,4 +23,9 @@ val preferencesModule: Module = module {
 val dataModules: Module = module {
     single { UserRepository(get()) }
     single { TransactionRepository(get()) }
+    single { CurrencyRepository(get()) }
+}
+
+val retrofitModules: Module = module {
+    single { RestServiceModule().provideAPIInterface() }
 }

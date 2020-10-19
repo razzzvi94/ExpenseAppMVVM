@@ -93,4 +93,8 @@
     <string name="password_err_length">Password must be at least 6 characters long</string>
     <string name="menu_button">Menu Button</string>
     <string name="save">Save</string>
+    <string name="currency_retrieve_failed">Currency retrieved failed</string>
+    <string name="currency_retrieve_success">Currency retrieved successful</string>
+    <string name="save_currency_failed">Currency save failed</string>
+    <string name="save_currency_success">Currency save successful</string>
 </resources>
