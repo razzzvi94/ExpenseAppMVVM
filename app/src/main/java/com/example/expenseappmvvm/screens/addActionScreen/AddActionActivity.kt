@@ -18,6 +18,7 @@ import com.example.expenseappmvvm.screens.addActionScreen.adapter.CategoryAdapte
 import com.example.expenseappmvvm.screens.addActionScreen.adapter.models.CategoryItem
 import com.example.expenseappmvvm.screens.addActionScreen.adapter.models.DateTime
 import com.example.expenseappmvvm.screens.addActionScreen.enum.CategoryEnum
+import com.example.expenseappmvvm.screens.mainScreen.HomeActivity
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_add_action.*
 import org.koin.android.ext.android.get
@@ -72,11 +73,13 @@ class AddActionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListene
                     dateTime.savedHour.toString() + ":" +
                     dateTime.savedMinute.toString()
         )
+        addActionViewModel.timestamp = getUTCTimestamp()
     }
 
     private fun observeLiveData() {
         addActionViewModel.apply {
             openDatePicker.observe(this@AddActionActivity, { initDatePicker() })
+            goToHomeScreen.observe(this@AddActionActivity, { HomeActivity.startHome(this@AddActionActivity) })
         }
     }
 
@@ -143,7 +146,7 @@ class AddActionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListene
 
     private fun setCategoryData(): List<CategoryItem> {
         val list: MutableList<CategoryItem> = mutableListOf()
-        enumValues<CategoryEnum>().forEach { it ->
+        enumValues<CategoryEnum>().forEach {
             val selected = it.getName(this)
                 .equals(CategoryEnum.INCOME.getName(this), true)
             list.add(CategoryItem(it.getIcon(this), it.getName(this), selected))

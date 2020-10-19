@@ -26,7 +26,7 @@
             <include
                 android:id="@+id/screenToolbar"
                 layout="@layout/transaction_toolbar"
-                bind:viewModel="@{viewModel}"/>
+                bind:viewModel="@{viewModel}" />
 
             <TextView
                 android:id="@+id/date_TextView"
@@ -51,9 +51,10 @@
                 android:clickable="true"
                 android:focusable="false"
                 android:hint="@string/hint_date"
+                android:onClick="@{()->viewModel.selectDate()}"
+                android:text="@={viewModel.dateTimeText}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/date_TextView"
-                android:onClick="@{()->viewModel.selectDate()}"/>
+                app:layout_constraintTop_toBottomOf="@+id/date_TextView" />
 
             <TextView
                 android:id="@+id/amount_TextView"
@@ -75,10 +76,11 @@
                 android:layout_marginStart="@dimen/space_17dp"
                 android:layout_marginTop="@dimen/space_7dp"
                 android:layout_marginEnd="@dimen/space_16dp"
+                android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:hint="@string/hint_amount"
-                android:focusable="true"
                 android:inputType="number"
+                android:text="@={viewModel.amountText}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/amount_TextView" />
 
@@ -132,14 +134,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_17dp"
                 android:layout_marginTop="@dimen/space_7dp"
+                android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:hint="@string/hint_details"
                 android:inputType="text"
-                android:focusable="true"
                 app:layout_constraintEnd_toStartOf="@+id/add_image"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/details_TextView" />
+                app:layout_constraintTop_toBottomOf="@+id/details_TextView"
+                android:text="@={viewModel.detailsText}"/>
 
             <ImageView
                 android:id="@+id/add_image"
