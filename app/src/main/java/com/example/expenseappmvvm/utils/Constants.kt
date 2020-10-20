@@ -22,6 +22,7 @@ object Constants {
     const val LAST_SECOND = 59
     const val oneDayMs = 24 * 60 * 60 * 1000
     const val twoDayMs = 48 * 60 * 60 * 1000
+    const val AWAIT_INPUT = 400L
 
     //Throttle
     const val THROTTLE_DURATION = 1L

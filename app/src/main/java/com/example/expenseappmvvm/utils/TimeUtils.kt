@@ -27,4 +27,18 @@ object TimeUtils {
             formatter.format(Date(timestamp))
         }
     }
+
+    fun currencyDateToGMT(date: String): Long {
+        val dateArray = date.split("-")
+        val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            set(Calendar.DAY_OF_MONTH, dateArray[2].toInt())
+            set(Calendar.MONTH, dateArray[1].toInt() - 1)
+            set(Calendar.YEAR, dateArray[0].toInt())
+        }
+        return calendar.timeInMillis
+    }
 }

@@ -21,7 +21,8 @@ class ExpenseApp: Application() {
                     preferencesModule,
                     dataModules,
                     viewModelsModule,
-                    rxModules
+                    rxModules,
+                    retrofitModules
                 )
             )
         }
