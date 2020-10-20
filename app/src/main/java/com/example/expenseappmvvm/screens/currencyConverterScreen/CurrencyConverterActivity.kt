@@ -32,8 +32,6 @@ class CurrencyConverterActivity : AppCompatActivity() {
         currencyConverterViewModel.getCurrency()
         initToolbar()
         initSpinners(currencyObj)
-        //localCurrencyChanged(native_currency)
-        //foreignCurrencyChanged(foreign_currency)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -96,44 +94,6 @@ class CurrencyConverterActivity : AppCompatActivity() {
         val nativeSpinner = CurrencyAdapter(this, nativeList)
         native_currency_spinner.adapter = nativeSpinner
     }
-
-//    private fun localCurrencyChanged(native_currency: EditText) {
-//        native_currency.addTextChangedListener(object :
-//            TextWatcher {
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-//
-//            override fun afterTextChanged(s: Editable?) {calculateRonToValue(Integer.parseInt(s.toString()).toDouble())}
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//
-//            }
-//        })
-//    }
-//
-//    private fun foreignCurrencyChanged(foreign_currency: EditText) {
-//        foreign_currency.addTextChangedListener(object :
-//            TextWatcher {
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-//
-//            override fun afterTextChanged(s: Editable?) {calculateValueToRon(Integer.parseInt(s.toString()).toDouble())}
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//
-//            }
-//        })
-//    }
-//
-//
-//    fun calculateRonToValue(amount: Double) {
-//        val item = foreign_currency_spinner.selectedItem as CurrencyItem
-//        foreign_currency.setText((amount * item.currencyValue).toString())
-//    }
-//
-//
-//    fun calculateValueToRon(amount: Double) {
-//        val item = foreign_currency_spinner.selectedItem as CurrencyItem
-//        native_currency.setText((amount / item.currencyValue).toString())
-//    }
 
     companion object {
         fun startCurrencyConverter(activity: Activity) {

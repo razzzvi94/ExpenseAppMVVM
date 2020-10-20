@@ -22,34 +22,6 @@ class CurrencyConverterViewModel(
     private var currencyObj: CurrencyResponse? = null
     var bnrMessage: MutableLiveData<String> = MutableLiveData()
 
-//    var localCoin = MutableLiveData<Int>().apply { value = 0 }
-//    var foreignCoin = MutableLiveData<Int>().apply { value = 0 }
-
-    init {
-//        convertCurrencyValueToRon()
-//        convertCurrencyValueToRon()
-    }
-
-//    private fun convertCurrencyRonToValue() {
-//        getCurrencyRonToValue()
-//            .debounce(Constants.AWAIT_INPUT, TimeUnit.MILLISECONDS)
-//            .observeOn(rxSchedulers.androidUI())
-//            .subscribe {
-//                if (isDigitsOnly(it) && !view.isForeignCaseSelected() && it.isNotEmpty())
-//                    view.calculateRonToValue(it.toString().toDouble())
-//            }.disposeBy(compositeDisposable)
-//    }
-//
-//    private fun convertCurrencyValueToRon() {
-//        getCurrencyValueToRon()
-//            .debounce(Constants.AWAIT_INPUT, TimeUnit.MILLISECONDS)
-//            .observeOn(rxSchedulers.androidUI())
-//            .subscribe {
-//                if (isDigitsOnly(it) && !view.isRonCaseSelected() && it.isNotEmpty())
-//                    view.calculateValueToRon(it.toString().toDouble())
-//            }.disposeBy(compositeDisposable)
-//    }
-
     fun getCurrency() {
         return converterAPI.allCurrency
             .subscribeOn(rxSchedulers.background())

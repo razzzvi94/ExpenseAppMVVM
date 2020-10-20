@@ -42,8 +42,6 @@ class LoginViewModel(
 
     private var isValid = true
 
-    //private var currencyObj: CurrencyResponse? = null
-
     private fun addFormError(formError: FormErrorsEnum) {
         formErrorsList.add(formError)
         isValid = false
