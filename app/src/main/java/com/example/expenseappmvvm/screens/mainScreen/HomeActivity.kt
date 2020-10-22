@@ -3,6 +3,7 @@ package com.example.expenseappmvvm.screens.mainScreen
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
@@ -12,6 +13,8 @@ import com.example.expenseappmvvm.screens.addActionScreen.AddActionActivity
 import com.example.expenseappmvvm.screens.currencyConverterScreen.CurrencyConverterActivity
 import com.example.expenseappmvvm.screens.loginScreen.LoginActivity
 import com.example.expenseappmvvm.screens.mainScreen.adapter.HomePagerAdapter
+import com.example.expenseappmvvm.utils.TimeUtils
+import com.example.expenseappmvvm.utils.isNetworkConnected
 import kotlinx.android.synthetic.main.activity_home.*
 import org.koin.android.ext.android.get
 
@@ -28,6 +31,7 @@ class HomeActivity : AppCompatActivity() {
             lifecycleOwner = this@HomeActivity
         }
 
+        homeViewModel.getCurrencyDate()
         initFabMenu()
         observeLiveData()
         homeViewModel.getUserName()

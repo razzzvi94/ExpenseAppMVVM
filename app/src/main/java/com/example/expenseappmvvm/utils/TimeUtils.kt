@@ -2,6 +2,7 @@ package com.example.expenseappmvvm.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.text.format.DateUtils
 import com.example.expenseappmvvm.R
 import java.text.SimpleDateFormat
 import java.util.*
@@ -40,5 +41,19 @@ object TimeUtils {
             set(Calendar.YEAR, dateArray[0].toInt())
         }
         return calendar.timeInMillis
+    }
+
+    //Check if the last saved currency are from yesterday
+    fun lastCurrencyCheck(dbDate: Long): Boolean {
+        if (!DateUtils.isToday(dbDate + DateUtils.DAY_IN_MILLIS)){
+            return true
+        }
+        return false
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun currencyDateFormat(timestamp: Long): String {
+        val formatter = SimpleDateFormat("yyyy-MM-dd")
+        return formatter.format(Date(timestamp))
     }
 }

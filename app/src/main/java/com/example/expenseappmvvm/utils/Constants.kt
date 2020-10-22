@@ -8,6 +8,7 @@ object Constants {
     const val EMPTY_STRING = ""
     const val NULL_STRING = "null"
     const val SPECIAL_CHAR_STRING = "!@#$%&*()'+,-./:;<=>?[]^_`{|}"
+    const val TWO_DECIMAL = "%.2f"
 
     //Numbers
     const val SPLASH_TIME_OUT: Long = 2000
@@ -23,6 +24,7 @@ object Constants {
     const val oneDayMs = 24 * 60 * 60 * 1000
     const val twoDayMs = 48 * 60 * 60 * 1000
     const val AWAIT_INPUT = 400L
+    const val DEFAULT_LONG = 0L
 
     //Throttle
     const val THROTTLE_DURATION = 1L

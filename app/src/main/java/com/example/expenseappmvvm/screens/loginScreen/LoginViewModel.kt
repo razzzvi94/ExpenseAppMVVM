@@ -7,27 +7,20 @@ import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.expenseappmvvm.R
-import com.example.expenseappmvvm.data.database.entities.Currency
 import com.example.expenseappmvvm.data.database.entities.User
-import com.example.expenseappmvvm.data.database.repositories.CurrencyRepository
 import com.example.expenseappmvvm.data.database.repositories.UserRepository
-import com.example.expenseappmvvm.data.rest.CurrencyResponse
 import com.example.expenseappmvvm.data.rx.AppRxSchedulers
-import com.example.expenseappmvvm.network.RestServiceInterface
 import com.example.expenseappmvvm.utils.*
 import com.example.expenseappmvvm.utils.enums.FormErrorsEnum
 import com.example.expenseappmvvm.utils.resourceUtils.ResourceUtils
 import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.disposables.CompositeDisposable
-import timber.log.Timber
 
 class LoginViewModel(
     private val resourceUtils: ResourceUtils,
     private val userRepository: UserRepository,
-    private val currencyRepository: CurrencyRepository,
     private val sharedPref: Preferences,
     private val rxSchedulers: AppRxSchedulers,
-    private val converterAPI: RestServiceInterface,
     private val compositeDisposable: CompositeDisposable
 ) : ViewModel() {
     val showHide = MutableLiveData<Boolean>().apply { value = false }
@@ -58,7 +51,6 @@ class LoginViewModel(
         }
         if (isValid) {
             loginUser()
-            getCurrency()
         }
     }
 
@@ -207,57 +199,6 @@ class LoginViewModel(
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })
-    }
-
-    private fun getCurrency() {
-        return converterAPI.allCurrency
-            .subscribeOn(rxSchedulers.background())
-            .observeOn(rxSchedulers.androidUI())
-            .doOnError {
-                Timber.e(it.localizedMessage)
-            }
-            .doOnNext { currencyResponse ->
-                //currencyObj = currencyResponse
-                saveCurrencyToDB(currencyResponse)
-            }
-            .subscribe({
-                Timber.d(resourceUtils.getStringResource(R.string.currency_retrieve_success))
-            }, {
-                Toast.makeText(
-                    resourceUtils.getContext(),
-                    resourceUtils.getStringResource(R.string.currency_retrieve_failed),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }).disposeBy(compositeDisposable)
-    }
-
-    private fun saveCurrencyToDB(currencyObj: CurrencyResponse) {
-        val currency = Currency(
-            currencyBase = currencyObj.base,
-            currencyDate = TimeUtils.currencyDateToGMT(currencyObj.date),
-            EUR = currencyObj.rates.EUR,
-            USD = currencyObj.rates.USD,
-            GBP = currencyObj.rates.GBP,
-            CHF = currencyObj.rates.CHF,
-            AUD = currencyObj.rates.AUD
-        )
-        currencyRepository.insertCurrency(currency)
-            .subscribeOn(rxSchedulers.background())
-            .observeOn(rxSchedulers.androidUI())
-            .subscribe({
-                Toast.makeText(
-                    resourceUtils.getContext(),
-                    resourceUtils.getStringResource(R.string.save_currency_success),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }, {
-                Toast.makeText(
-                    resourceUtils.getContext(),
-                    resourceUtils.getStringResource(R.string.save_currency_failed),
-                    Toast.LENGTH_SHORT
-                ).show()
-            })
-            .disposeBy(compositeDisposable)
     }
 
 
