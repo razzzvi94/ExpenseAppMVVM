@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:padding="@dimen/space_16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/change_currency_title"
+        android:textSize="@dimen/text_18sp"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/colorBlack"
+        android:layout_marginBottom="@dimen/space_5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/change_currency_text"
+        android:textSize="@dimen/text_14sp"
+        android:fontFamily="@font/roboto_normal"
+        android:textColor="@color/colorBlack"
+        android:layout_marginBottom="@dimen/space_5dp"/>
+
+    <com.super_rabbit.wheel_picker.WheelPicker
+        android:id="@+id/currency_wheelPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/space_5dp"/>
+
+</LinearLayout>

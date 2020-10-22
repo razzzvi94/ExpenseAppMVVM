@@ -5,6 +5,16 @@
 
     <data>
         <variable name="userName" type="String"/>
+        <variable
+            name="currency"
+            type="String" />
+        <variable
+            name="currencyIcon"
+            type="Integer" />
+
+        <variable
+            name="viewModel"
+            type="com.example.expenseappmvvm.screens.mainScreen.HomeViewModel" />
     </data>
 
     <androidx.appcompat.widget.Toolbar
@@ -33,6 +43,34 @@
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/text_20sp"
             tools:text="John Deer" />
+
+        <LinearLayout
+            android:id="@+id/changeAppCurrency_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/space_18dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:onClick="@{()->viewModel.openChangeCurrencyBottomSheet()}">
+
+            <ImageView
+                android:id="@+id/appCurrency_imageView"
+                android:layout_width="@dimen/space_30dp"
+                android:layout_height="@dimen/space_30dp"
+                app:changeIcon="@{viewModel.currency}"
+                android:layout_marginEnd="@dimen/space_10dp"/>
+
+            <TextView
+                android:id="@+id/appCurrency_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@{viewModel.currency}"
+                android:textColor="@color/colorGreen"
+                android:textSize="@dimen/text_18sp" />
+
+        </LinearLayout>
 
     </androidx.appcompat.widget.Toolbar>
 </layout>

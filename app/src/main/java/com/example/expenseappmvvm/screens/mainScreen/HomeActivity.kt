@@ -3,7 +3,6 @@ package com.example.expenseappmvvm.screens.mainScreen
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
@@ -13,13 +12,13 @@ import com.example.expenseappmvvm.screens.addActionScreen.AddActionActivity
 import com.example.expenseappmvvm.screens.currencyConverterScreen.CurrencyConverterActivity
 import com.example.expenseappmvvm.screens.loginScreen.LoginActivity
 import com.example.expenseappmvvm.screens.mainScreen.adapter.HomePagerAdapter
-import com.example.expenseappmvvm.utils.TimeUtils
-import com.example.expenseappmvvm.utils.isNetworkConnected
+import com.example.expenseappmvvm.screens.mainScreen.dialog.ChangeCurrencyBottomSheetDialog
+import com.example.expenseappmvvm.screens.mainScreen.interfaces.BottomSheetListener
 import kotlinx.android.synthetic.main.activity_home.*
 import org.koin.android.ext.android.get
 
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), BottomSheetListener {
     private val homeViewModel: HomeViewModel = get()
     private var isFABOpen: Boolean = false
     private val fragmentAdapter = HomePagerAdapter(this, 2)
@@ -36,6 +35,10 @@ class HomeActivity : AppCompatActivity() {
         observeLiveData()
         homeViewModel.getUserName()
         initViewPager()
+    }
+
+    override fun selectedCurrency(text: String) {
+        homeViewModel.currency.value = text
     }
 
     private fun initFabMenu() {
@@ -66,11 +69,19 @@ class HomeActivity : AppCompatActivity() {
 
     private fun observeLiveData() {
         homeViewModel.apply {
-            goToAddActionScreen.observe(this@HomeActivity, { AddActionActivity.startAddAction(this@HomeActivity) })
-            goToCurrencyConverterScreen.observe(this@HomeActivity, { CurrencyConverterActivity.startCurrencyConverter(this@HomeActivity) })
+            goToAddActionScreen.observe(
+                this@HomeActivity,
+                { AddActionActivity.startAddAction(this@HomeActivity) })
+            goToCurrencyConverterScreen.observe(
+                this@HomeActivity,
+                { CurrencyConverterActivity.startCurrencyConverter(this@HomeActivity) })
             goToLogout.observe(this@HomeActivity, { LoginActivity.startLogin(this@HomeActivity) })
-            goToBudgetFragment.observe(this@HomeActivity, { fragmentViewPager.currentItem = 0})
-            goToExpenseFragment.observe(this@HomeActivity, { fragmentViewPager.currentItem = 1})
+            goToBudgetFragment.observe(this@HomeActivity, { fragmentViewPager.currentItem = 0 })
+            goToExpenseFragment.observe(this@HomeActivity, { fragmentViewPager.currentItem = 1 })
+            openChangeCurrencyDialog.observe(this@HomeActivity, {
+                val bottomSheetChangeCurrency = ChangeCurrencyBottomSheetDialog()
+                bottomSheetChangeCurrency.show(supportFragmentManager, "changeCurrencyBottomSheet")
+            })
         }
     }
 
@@ -78,13 +89,13 @@ class HomeActivity : AppCompatActivity() {
         fragmentViewPager.adapter = fragmentAdapter
         fragmentViewPager.currentItem = 0
 
-        fragmentViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+        fragmentViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                when(position){
+                when (position) {
                     0 -> {
                         homeViewModel.isExpenseTabSelected.value = false
                     }
-                    1 ->{
+                    1 -> {
                         homeViewModel.isExpenseTabSelected.value = true
                     }
                 }

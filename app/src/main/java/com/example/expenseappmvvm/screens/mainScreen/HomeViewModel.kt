@@ -32,8 +32,10 @@ class HomeViewModel(
     var goToBudgetFragment = SingleLiveEvent<Any>()
     var goToExpenseFragment = SingleLiveEvent<Any>()
     var isExpenseTabSelected = MutableLiveData<Boolean>().apply { value = false }
+    var openChangeCurrencyDialog = SingleLiveEvent<Any>()
 
     val userName = MutableLiveData<String>().apply { value = Constants.EMPTY_STRING }
+    var currency = MutableLiveData<String>().apply { value = "RON" }
 
     private fun getCurrency() {
         return converterAPI.allCurrency
@@ -88,7 +90,7 @@ class HomeViewModel(
             .subscribeOn(rxSchedulers.background())
             .observeOn(rxSchedulers.androidUI())
             .doOnSuccess {
-                if(isNetworkConnected(resourceUtils.getContext()) && TimeUtils.lastCurrencyCheck(it)){
+                if (isNetworkConnected(resourceUtils.getContext()) && TimeUtils.lastCurrencyCheck(it)) {
                     getCurrency()
                 }
             }
@@ -96,7 +98,7 @@ class HomeViewModel(
                 getCurrency()
             }
             .subscribe({
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
             }).disposeBy(compositeDisposable)
     }
@@ -138,5 +140,9 @@ class HomeViewModel(
             }, {
                 Timber.e(it.localizedMessage)
             }).disposeBy(compositeDisposable)
+    }
+
+    fun openChangeCurrencyBottomSheet() {
+        openChangeCurrencyDialog.call()
     }
 }
