@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.expenseappmvvm.data.database.entities.User
 import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
 
 @Dao
@@ -22,6 +23,9 @@ interface UserDao {
     @Query("SELECT * FROM users WHERE userEmail = :user_email AND userPassword = :user_password")
     fun loginUser(user_email: String, user_password: String): Single<User>
 
-    @Query("SELECT userName FROM users WHERE userId = :userId")
-    fun getUserName(userId: Long): Single<String>
+    @Query("SELECT * FROM users WHERE userId = :userId")
+    fun getUser(userId: Long): Single<User>
+
+    @Query("UPDATE users SET userCurrency=:currency WHERE userId = :userId")
+    fun updateUserPreferredCurrency(currency: String, userId: Long): Single<Int>
 }

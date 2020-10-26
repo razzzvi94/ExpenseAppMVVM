@@ -18,4 +18,7 @@ interface TransactionDao {
 
     @Query("SELECT SUM(CASE WHEN transactionCategory = 'Income' then transactionAmount else -transactionAmount END) AS transactionAmount FROM transactions WHERE userId = :userId")
     fun getUserBalance(userId: Long): Maybe<Double>
+
+    @Query("UPDATE transactions SET transactionAmount = transactionAmount * :multiplier WHERE userId = :userId")
+    fun updateUserAmountPreferredCurrency(multiplier: Double, userId: Long): Single<Int>
 }

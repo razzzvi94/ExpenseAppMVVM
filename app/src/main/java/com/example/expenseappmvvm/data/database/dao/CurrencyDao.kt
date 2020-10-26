@@ -16,6 +16,9 @@ interface CurrencyDao {
     @Query("SELECT currencyDate FROM currencies WHERE currencyId = 0")
     fun getCurrencyDate(): Maybe<Long>
 
-    @Query("SELECT * FROM currencies WHERE currencyId = 0")
+    @Query("SELECT * FROM currencies WHERE currencyId = 1")
     fun getCurrencyDB(): Single<Currency>
+
+    @Query("SELECT * FROM currencies WHERE currencyBase = :currencyBase")
+    fun getMultiplier(currencyBase: String): Single<Currency>
 }

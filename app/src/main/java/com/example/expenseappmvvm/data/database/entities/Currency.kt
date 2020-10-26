@@ -4,11 +4,12 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "Currencies")
+@Entity(tableName = "Currencies", indices = [androidx.room.Index(value = ["currencyBase"], unique = true)])
 data class Currency(
-    @PrimaryKey(autoGenerate = false) var currencyId: Long = 0,
+    @PrimaryKey(autoGenerate = true) var currencyId: Long = 0,
     @ColumnInfo(name = "currencyDate") var currencyDate: Long,
     @ColumnInfo(name = "currencyBase") var currencyBase: String,
+    @ColumnInfo(name = "RON") var RON: Double,
     @ColumnInfo(name = "EUR") var EUR: Double,
     @ColumnInfo(name = "USD") var USD: Double,
     @ColumnInfo(name = "GBP") var GBP: Double,

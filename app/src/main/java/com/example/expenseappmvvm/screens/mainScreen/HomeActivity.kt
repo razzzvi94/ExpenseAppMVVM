@@ -37,8 +37,9 @@ class HomeActivity : AppCompatActivity(), BottomSheetListener {
         initViewPager()
     }
 
-    override fun selectedCurrency(text: String) {
-        homeViewModel.currency.value = text
+    override fun selectedCurrency(base: String, target: String) {
+        homeViewModel.currencyBase.value = base
+        homeViewModel.currencyTarget.value = target
     }
 
     private fun initFabMenu() {
@@ -79,7 +80,7 @@ class HomeActivity : AppCompatActivity(), BottomSheetListener {
             goToBudgetFragment.observe(this@HomeActivity, { fragmentViewPager.currentItem = 0 })
             goToExpenseFragment.observe(this@HomeActivity, { fragmentViewPager.currentItem = 1 })
             openChangeCurrencyDialog.observe(this@HomeActivity, {
-                val bottomSheetChangeCurrency = ChangeCurrencyBottomSheetDialog()
+                val bottomSheetChangeCurrency = ChangeCurrencyBottomSheetDialog(homeViewModel.getSelectedUserPosition(), homeViewModel)
                 bottomSheetChangeCurrency.show(supportFragmentManager, "changeCurrencyBottomSheet")
             })
         }

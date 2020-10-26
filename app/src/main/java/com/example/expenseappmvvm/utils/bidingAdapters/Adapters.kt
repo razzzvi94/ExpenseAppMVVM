@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.example.expenseappmvvm.R
+import com.example.expenseappmvvm.utils.enums.CurrencyEnum
 
 @BindingAdapter("changeTextSize")
 fun bindTextSize(textView: TextView, size: Int) {
@@ -27,16 +28,12 @@ fun setImageViewResource(imageView: ImageView, resource: Int) {
 
 @BindingAdapter("changeIcon")
 fun setCurrencyIcon(imageView: ImageView, currency: String) {
-    if(currency == "RON")
-        imageView.setImageResource(R.drawable.ic_flag_ro)
-    if(currency == "EUR")
-        imageView.setImageResource(R.drawable.ic_euro)
-    if(currency == "USD")
-        imageView.setImageResource(R.drawable.ic_dolar)
-    if(currency == "GBP")
-        imageView.setImageResource(R.drawable.ic_pound)
-    if(currency == "CHF")
-        imageView.setImageResource(R.drawable.ic_chf)
-    if(currency == "AUD")
-        imageView.setImageResource(R.drawable.ic_aud)
+    when(currency){
+        CurrencyEnum.RON.name -> imageView.setImageResource(R.drawable.ic_flag_ro)
+        CurrencyEnum.EUR.name -> imageView.setImageResource(R.drawable.ic_euro)
+        CurrencyEnum.USD.name -> imageView.setImageResource(R.drawable.ic_dolar)
+        CurrencyEnum.GBP.name -> imageView.setImageResource(R.drawable.ic_pound)
+        CurrencyEnum.CHF.name -> imageView.setImageResource(R.drawable.ic_chf)
+        CurrencyEnum.AUD.name -> imageView.setImageResource(R.drawable.ic_aud)
+    }
 }

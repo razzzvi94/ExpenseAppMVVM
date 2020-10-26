@@ -14,6 +14,7 @@ import com.example.expenseappmvvm.data.rest.CurrencyCoin
 import com.example.expenseappmvvm.databinding.ActivityCurrencyConverterBinding
 import com.example.expenseappmvvm.screens.currencyConverterScreen.adapter.CurrencyAdapter
 import com.example.expenseappmvvm.screens.currencyConverterScreen.adapter.models.CurrencyItem
+import com.example.expenseappmvvm.utils.enums.CurrencyEnum
 import kotlinx.android.synthetic.main.activity_currency_converter.*
 import kotlinx.android.synthetic.main.transaction_toolbar.view.*
 import org.koin.android.ext.android.get
@@ -91,11 +92,11 @@ class CurrencyConverterActivity : AppCompatActivity() {
         val modelList: MutableList<CurrencyItem> = mutableListOf()
         modelList.run {
             add(CurrencyItem("Currency", 0))
-            add(CurrencyItem("EUR", R.drawable.ic_euro))
-            add(CurrencyItem("USD", R.drawable.ic_dolar))
-            add(CurrencyItem("GBP", R.drawable.ic_pound))
-            add(CurrencyItem("CHF", R.drawable.ic_chf))
-            add(CurrencyItem("AUD", R.drawable.ic_aud))
+            add(CurrencyItem(CurrencyEnum.EUR.getName(this@CurrencyConverterActivity), CurrencyEnum.EUR.getIcon(this@CurrencyConverterActivity)))
+            add(CurrencyItem(CurrencyEnum.USD.getName(this@CurrencyConverterActivity), CurrencyEnum.USD.getIcon(this@CurrencyConverterActivity)))
+            add(CurrencyItem(CurrencyEnum.GBP.getName(this@CurrencyConverterActivity), CurrencyEnum.GBP.getIcon(this@CurrencyConverterActivity)))
+            add(CurrencyItem(CurrencyEnum.CHF.getName(this@CurrencyConverterActivity), CurrencyEnum.CHF.getIcon(this@CurrencyConverterActivity)))
+            add(CurrencyItem(CurrencyEnum.AUD.getName(this@CurrencyConverterActivity), CurrencyEnum.AUD.getIcon(this@CurrencyConverterActivity)))
         }
         val foreignSpinner = CurrencyAdapter(this, modelList)
         foreign_currency_spinner.adapter = foreignSpinner
@@ -103,7 +104,7 @@ class CurrencyConverterActivity : AppCompatActivity() {
 
     private fun initNativeSpinner() {
         val nativeList: MutableList<CurrencyItem> = mutableListOf()
-        nativeList.add(CurrencyItem("RON", R.drawable.ic_flag_ro, 1.0))
+        nativeList.add(CurrencyItem(CurrencyEnum.RON.getName(this), CurrencyEnum.RON.getIcon(this), 1.0))
         val nativeSpinner = CurrencyAdapter(this, nativeList)
         native_currency_spinner.adapter = nativeSpinner
     }

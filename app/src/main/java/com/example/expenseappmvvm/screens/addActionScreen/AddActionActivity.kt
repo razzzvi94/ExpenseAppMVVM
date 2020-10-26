@@ -17,7 +17,7 @@ import com.example.expenseappmvvm.databinding.ActivityAddActionBinding
 import com.example.expenseappmvvm.screens.addActionScreen.adapter.CategoryAdapter
 import com.example.expenseappmvvm.screens.addActionScreen.adapter.models.CategoryItem
 import com.example.expenseappmvvm.screens.addActionScreen.adapter.models.DateTime
-import com.example.expenseappmvvm.screens.addActionScreen.enum.CategoryEnum
+import com.example.expenseappmvvm.screens.addActionScreen.enums.CategoryEnum
 import com.example.expenseappmvvm.screens.mainScreen.HomeActivity
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_add_action.*

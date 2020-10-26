@@ -58,7 +58,7 @@
                 android:id="@+id/appCurrency_imageView"
                 android:layout_width="@dimen/space_30dp"
                 android:layout_height="@dimen/space_30dp"
-                app:changeIcon="@{viewModel.currency}"
+                app:changeIcon="@{viewModel.currencyTarget}"
                 android:layout_marginEnd="@dimen/space_10dp"/>
 
             <TextView
@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
-                android:text="@{viewModel.currency}"
+                android:text="@{viewModel.currencyTarget}"
                 android:textColor="@color/colorGreen"
                 android:textSize="@dimen/text_18sp" />
 

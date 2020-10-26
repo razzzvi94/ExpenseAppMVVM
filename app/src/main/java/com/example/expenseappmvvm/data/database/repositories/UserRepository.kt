@@ -13,7 +13,11 @@ class UserRepository(private val db: AppDatabase) {
         return db.userDao().loginUser(userEmail, userPassword)
     }
 
-    fun getUserName(userId: Long): Single<String> {
-        return db.userDao().getUserName(userId)
+    fun getUser(userId: Long): Single<User> {
+        return db.userDao().getUser(userId)
+    }
+
+    fun preferredCurrency(currency: String, userId: Long): Single<Int>{
+        return db.userDao().updateUserPreferredCurrency(currency, userId)
     }
 }

@@ -80,7 +80,6 @@ class AddActionViewModel(
                 Toast.LENGTH_SHORT
             ).show()
         }
-        goToHomeScreen.call()
     }
 
     private fun saveTransaction() {
@@ -90,7 +89,7 @@ class AddActionViewModel(
                 .subscribeOn(rxSchedulers.background())
                 .observeOn(rxSchedulers.androidUI())
                 .subscribe({
-                    //showHomeScreen()
+                    goToHomeScreen.call()
                 }, {
                     Timber.e(it.localizedMessage)
                 })
