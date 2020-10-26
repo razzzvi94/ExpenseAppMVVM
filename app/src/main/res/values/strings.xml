@@ -97,4 +97,7 @@
     <string name="currency_retrieve_success">Currency retrieved successful</string>
     <string name="save_currency_failed">Currency save failed</string>
     <string name="save_currency_success">Currency save successful</string>
+    <string name="change_currency_title">Change currency</string>
+    <string name="change_currency_text">Change the currency in the entire application</string>
+    <string name="preferred_currency">Saved preferred currency</string>
 </resources>

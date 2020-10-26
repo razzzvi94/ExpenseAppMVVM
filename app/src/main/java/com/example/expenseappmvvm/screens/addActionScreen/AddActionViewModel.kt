@@ -17,6 +17,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import timber.log.Timber
 
+
 class AddActionViewModel(
     private val resourceUtils: ResourceUtils,
     private val rxSchedulers: AppRxSchedulers,
@@ -79,7 +80,6 @@ class AddActionViewModel(
                 Toast.LENGTH_SHORT
             ).show()
         }
-        goToHomeScreen.call()
     }
 
     private fun saveTransaction() {
@@ -89,7 +89,7 @@ class AddActionViewModel(
                 .subscribeOn(rxSchedulers.background())
                 .observeOn(rxSchedulers.androidUI())
                 .subscribe({
-                    //showHomeScreen()
+                    goToHomeScreen.call()
                 }, {
                     Timber.e(it.localizedMessage)
                 })

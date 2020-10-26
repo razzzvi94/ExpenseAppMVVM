@@ -1,4 +1,4 @@
-package com.example.expenseappmvvm.screens.addActionScreen.enum
+package com.example.expenseappmvvm.screens.addActionScreen.enums
 
 import android.content.Context
 import com.example.expenseappmvvm.R

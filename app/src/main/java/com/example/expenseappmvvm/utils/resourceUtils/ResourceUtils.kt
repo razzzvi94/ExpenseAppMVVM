@@ -1,6 +1,7 @@
 package com.example.expenseappmvvm.utils.resourceUtils
 
 import android.content.Context
+import android.net.ConnectivityManager
 
 class ResourceUtils(private val context: Context) {
     fun getStringResource(stringId: Int): String{
@@ -13,5 +14,16 @@ class ResourceUtils(private val context: Context) {
 
     fun getContext(): Context{
         return context
+    }
+
+    /**
+     * Checks if the device is connected to a network
+     *
+     * @return true or false depending on the device connectivity
+     */
+    fun isNetworkConnected(): Boolean {
+        val connManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connManager.activeNetworkInfo ?: return false
+        return networkInfo.isConnected
     }
 }
