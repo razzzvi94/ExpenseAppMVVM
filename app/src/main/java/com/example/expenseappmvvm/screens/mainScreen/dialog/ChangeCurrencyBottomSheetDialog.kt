@@ -27,13 +27,13 @@ class ChangeCurrencyBottomSheetDialog(private val position: Int, private val vie
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.change_currency_bottom_sheet, container, false)
-        view.apply {
-            currency_wheelPicker.setSelectorRoundedWrapPreferred(true)          // Set rounded wrap enable
-            currency_wheelPicker.setSelectedTextColor(R.color.color_4_blue)
-            currency_wheelPicker.setUnselectedTextColor(R.color.color_3_dark_blue)
-            currency_wheelPicker.setAdapter(WheelPickerChangeCurrencyAdapter())
-            currency_wheelPicker.post { view.currency_wheelPicker.smoothScrollTo(position) }
-            currency_wheelPicker.setOnValueChangeListener(object : OnValueChangeListener {
+        view.currency_wheelPicker.apply {
+            setSelectorRoundedWrapPreferred(true)          // Set rounded wrap enable
+            setSelectedTextColor(R.color.color_4_blue)
+            setUnselectedTextColor(R.color.color_3_dark_blue)
+            setAdapter(WheelPickerChangeCurrencyAdapter())
+            post { view.currency_wheelPicker.smoothScrollTo(position) }
+            setOnValueChangeListener(object : OnValueChangeListener {
                 override fun onValueChange(picker: WheelPicker, oldVal: String, newVal: String) {
                     if(newVal == ""){
                         mListener!!.selectedCurrency(CurrencyEnum.RON.name, CurrencyEnum.RON.name)
