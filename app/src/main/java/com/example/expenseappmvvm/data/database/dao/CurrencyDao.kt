@@ -13,11 +13,11 @@ interface CurrencyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCurrency(currency: Currency): Single<Long>
 
-    @Query("SELECT currencyDate FROM currencies WHERE currencyId = 0")
+    @Query("SELECT currencyDate FROM currencies WHERE currencyBase = 'RON'")
     fun getCurrencyDate(): Maybe<Long>
 
-    @Query("SELECT * FROM currencies WHERE currencyId = 1")
-    fun getCurrencyDB(): Single<Currency>
+    @Query("SELECT * FROM currencies WHERE currencyBase = :currencyBase")
+    fun getCurrencyDB(currencyBase: String): Single<Currency>
 
     @Query("SELECT * FROM currencies WHERE currencyBase = :currencyBase")
     fun getMultiplier(currencyBase: String): Single<Currency>

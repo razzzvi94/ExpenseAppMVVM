@@ -4,6 +4,7 @@ import com.example.expenseappmvvm.data.database.AppDatabase
 import com.example.expenseappmvvm.data.database.entities.Currency
 import com.example.expenseappmvvm.data.database.entities.Transaction
 import io.reactivex.Maybe
+import io.reactivex.Observable
 import io.reactivex.Single
 
 class TransactionRepository(private val db: AppDatabase) {
@@ -11,11 +12,11 @@ class TransactionRepository(private val db: AppDatabase) {
         return db.transactionDao().insertOrUpdateTransaction(transaction)
     }
 
-    fun getExpenseByDate(startDate: Long, endDate: Long, userId: Long): Maybe<Double> {
+    fun getExpenseByDate(startDate: Long, endDate: Long, userId: Long): Observable<Double> {
         return db.transactionDao().getUserExpenseByDate(startDate, endDate, userId)
     }
 
-    fun getUserBalance(userId: Long): Maybe<Double>{
+    fun getUserBalance(userId: Long): Observable<Double>{
         return db.transactionDao().getUserBalance(userId)
     }
 

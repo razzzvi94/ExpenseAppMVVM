@@ -9,10 +9,13 @@ import androidx.lifecycle.ViewModel
 import com.example.expenseappmvvm.R
 import com.example.expenseappmvvm.data.database.entities.Currency
 import com.example.expenseappmvvm.data.database.repositories.CurrencyRepository
+import com.example.expenseappmvvm.data.database.repositories.UserRepository
 import com.example.expenseappmvvm.data.rx.AppRxSchedulers
 import com.example.expenseappmvvm.utils.Constants
+import com.example.expenseappmvvm.utils.Preferences
 import com.example.expenseappmvvm.utils.TimeUtils
 import com.example.expenseappmvvm.utils.disposeBy
+import com.example.expenseappmvvm.utils.enums.CurrencyEnum
 import com.example.expenseappmvvm.utils.resourceUtils.ResourceUtils
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
@@ -21,18 +24,22 @@ class CurrencyConverterViewModel(
     private val currencyRepository: CurrencyRepository,
     private val rxSchedulers: AppRxSchedulers,
     private val resourceUtils: ResourceUtils,
+    private val sharedPref: Preferences,
+    private val userRepository: UserRepository,
     private val compositeDisposable: CompositeDisposable
 ) : ViewModel() {
 
+    private val currencyValueList: MutableList<Double> = mutableListOf()
     var bnrMessage: MutableLiveData<String> = MutableLiveData()
     var nativeCurrency = MutableLiveData<String>().apply { value = "0" }
     var foreignCurrency = MutableLiveData<String>().apply { value = "0" }
-    private val currencyValueList: MutableList<Double> = mutableListOf()
+    var userCurrency = MutableLiveData<String>().apply { value = CurrencyEnum.RON.name }
     var currencyValue: Double = 0.0
 
     private fun populateSpinnerList(currency: Currency) {
         currencyValueList.run {
             add(0.0)
+            add(currency.RON)
             add(currency.EUR)
             add(currency.USD)
             add(currency.GBP)
@@ -42,7 +49,7 @@ class CurrencyConverterViewModel(
     }
 
     fun getLocalCurrency() {
-        return currencyRepository.getCurrency()
+        return currencyRepository.getCurrency(userCurrency.value.toString())
             .subscribeOn(rxSchedulers.background())
             .observeOn(rxSchedulers.androidUI())
             .doOnSuccess {
@@ -94,16 +101,43 @@ class CurrencyConverterViewModel(
 
     fun calculateRonToValue() {
         if (currencyValue != 0.0)
-            foreignCurrency.value = String.format(Constants.TWO_DECIMAL, (Integer.parseInt(nativeCurrency.value.toString()) * currencyValue))
+            foreignCurrency.value = String.format(
+                Constants.TWO_DECIMAL,
+                (Integer.parseInt(nativeCurrency.value.toString()) * currencyValue)
+            )
     }
 
 
     fun calculateValueToRon() {
         if (currencyValue != 0.0)
-            nativeCurrency.value = String.format(Constants.TWO_DECIMAL, (Integer.parseInt(foreignCurrency.value.toString()) * currencyValue))
+            nativeCurrency.value = String.format(
+                Constants.TWO_DECIMAL,
+                (Integer.parseInt(foreignCurrency.value.toString()) * currencyValue)
+            )
     }
 
     fun getPosition(position: Int) {
-        currencyValue = currencyValueList[position]
+        if(currencyValueList.isNotEmpty()){
+            currencyValue = currencyValueList[position]
+        }
+    }
+
+    fun getUserCurrency() {
+        var userId: Long = 0
+        if (sharedPref.hasKey(Constants.USER_ID)) {
+            userId = sharedPref.read(Constants.USER_ID, userId)
+        }
+
+        return userRepository.getUser(userId)
+            .subscribeOn(rxSchedulers.background())
+            .observeOn(rxSchedulers.androidUI())
+            .doOnSuccess {
+                userCurrency.value = it.userCurrency
+            }
+            .subscribe({
+                getLocalCurrency()
+            }, {
+                Timber.e(it.localizedMessage)
+            }).disposeBy(compositeDisposable)
     }
 }

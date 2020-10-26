@@ -156,7 +156,7 @@ class HomeViewModel(
         goToExpenseFragment.call()
     }
 
-    fun getUserName() {
+    fun getUserNameAndCurrency() {
         var userId: Long = 0
         if (sharedPref.hasKey(Constants.USER_ID)) {
             userId = sharedPref.read(Constants.USER_ID, userId)

@@ -16,5 +16,5 @@ val viewModelsModule: Module = module {
     viewModel { LoginViewModel(get(), get(), get(), get(), get()) }
     viewModel { BudgetFragmentViewModel(get(), get(), get(), get()) }
     viewModel { AddActionViewModel(get(), get(), get(), get(), get()) }
-    viewModel { CurrencyConverterViewModel(get(), get(), get(), get()) }
+    viewModel { CurrencyConverterViewModel(get(), get(), get(), get(), get(), get()) }
 }

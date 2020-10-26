@@ -8,6 +8,7 @@ import com.example.expenseappmvvm.utils.Constants
 import com.example.expenseappmvvm.utils.Preferences
 import com.example.expenseappmvvm.utils.disposeBy
 import io.reactivex.disposables.CompositeDisposable
+import java.text.DecimalFormat
 import java.util.*
 
 class BudgetFragmentViewModel(
@@ -20,10 +21,11 @@ class BudgetFragmentViewModel(
     private var userId: Long = 0L
     private var startDay: Long = 0L
     private var endDay: Long = 0L
-    private var c: Calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+    private var c: Calendar = Calendar.getInstance(TimeZone.getTimeZone(Constants.TIME_ZONE_UTC))
     private var startMonth: Long = 0L
     private var startWeek: Long = 0L
-    private var c1: Calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+    private var c1: Calendar = Calendar.getInstance(TimeZone.getTimeZone(Constants.TIME_ZONE_UTC))
+    private val twoDigitsFormatter: DecimalFormat = DecimalFormat(Constants.TWO_DECIMAL_FORMATTER)
 
     val userBalance = MutableLiveData<Double>().apply { value = 0.0 }
     val todayExpense = MutableLiveData<Double>().apply { value = 0.0 }
@@ -53,7 +55,7 @@ class BudgetFragmentViewModel(
     private fun getCurrentBalance() {
         return transactionRepository.getUserBalance(userId)
             .observeOn(rxSchedulers.androidUI())
-            .doOnSuccess { balance -> userBalance.value = balance }
+            .doOnNext { balance -> userBalance.value = twoDigitsFormatter.format(balance).toString().toDouble() }
             .subscribe().disposeBy(compositeDisposable)
     }
 
@@ -61,7 +63,7 @@ class BudgetFragmentViewModel(
         return transactionRepository.getExpenseByDate(startDay, endDay, userId)
             .subscribeOn(rxSchedulers.background())
             .observeOn(rxSchedulers.androidUI())
-            .doOnSuccess { expense -> todayExpense.value = expense }
+            .doOnNext { expense -> todayExpense.value = twoDigitsFormatter.format(expense).toString().toDouble() }
             .subscribe().disposeBy(compositeDisposable)
     }
 
@@ -69,7 +71,7 @@ class BudgetFragmentViewModel(
         return transactionRepository.getExpenseByDate(startWeek, endDay, userId)
             .subscribeOn(rxSchedulers.background())
             .observeOn(rxSchedulers.androidUI())
-            .doOnSuccess { expense -> weekExpense.value = expense }
+            .doOnNext { expense -> weekExpense.value = twoDigitsFormatter.format(expense).toString().toDouble() }
             .subscribe().disposeBy(compositeDisposable)
     }
 
@@ -77,7 +79,7 @@ class BudgetFragmentViewModel(
         return transactionRepository.getExpenseByDate(startMonth, endDay, userId)
             .subscribeOn(rxSchedulers.background())
             .observeOn(rxSchedulers.androidUI())
-            .doOnSuccess { expense -> monthExpense.value = expense }
+            .doOnNext { expense -> monthExpense.value = twoDigitsFormatter.format(expense).toString().toDouble() }
             .subscribe().disposeBy(compositeDisposable)
     }
 }
