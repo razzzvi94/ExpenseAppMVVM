@@ -33,7 +33,7 @@ class HomeActivity : AppCompatActivity(), BottomSheetListener {
         homeViewModel.getCurrencyDate()
         initFabMenu()
         observeLiveData()
-        homeViewModel.getUserName()
+        homeViewModel.getUserNameAndCurrency()
         initViewPager()
     }
 

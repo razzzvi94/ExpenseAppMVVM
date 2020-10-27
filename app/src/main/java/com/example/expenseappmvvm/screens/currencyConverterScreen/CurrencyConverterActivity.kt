@@ -35,7 +35,7 @@ class CurrencyConverterActivity : AppCompatActivity() {
         }
 
         currencyConverterViewModel.apply {
-            getLocalCurrency()
+            getUserCurrency()
             nativeCurrencyTextChanged(native_currency)
             foreignCurrencyTextChanged(foreign_currency)
         }
@@ -66,7 +66,6 @@ class CurrencyConverterActivity : AppCompatActivity() {
 
     private fun initSpinners() {
         initForeignSpinner()
-        initNativeSpinner()
         foreign_currency_spinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -92,21 +91,15 @@ class CurrencyConverterActivity : AppCompatActivity() {
         val modelList: MutableList<CurrencyItem> = mutableListOf()
         modelList.run {
             add(CurrencyItem("Currency", 0))
+            add(CurrencyItem(CurrencyEnum.RON.getName(this@CurrencyConverterActivity), CurrencyEnum.RON.getIcon(this@CurrencyConverterActivity)))
             add(CurrencyItem(CurrencyEnum.EUR.getName(this@CurrencyConverterActivity), CurrencyEnum.EUR.getIcon(this@CurrencyConverterActivity)))
             add(CurrencyItem(CurrencyEnum.USD.getName(this@CurrencyConverterActivity), CurrencyEnum.USD.getIcon(this@CurrencyConverterActivity)))
             add(CurrencyItem(CurrencyEnum.GBP.getName(this@CurrencyConverterActivity), CurrencyEnum.GBP.getIcon(this@CurrencyConverterActivity)))
             add(CurrencyItem(CurrencyEnum.CHF.getName(this@CurrencyConverterActivity), CurrencyEnum.CHF.getIcon(this@CurrencyConverterActivity)))
             add(CurrencyItem(CurrencyEnum.AUD.getName(this@CurrencyConverterActivity), CurrencyEnum.AUD.getIcon(this@CurrencyConverterActivity)))
         }
-        val foreignSpinner = CurrencyAdapter(this, modelList)
-        foreign_currency_spinner.adapter = foreignSpinner
-    }
-
-    private fun initNativeSpinner() {
-        val nativeList: MutableList<CurrencyItem> = mutableListOf()
-        nativeList.add(CurrencyItem(CurrencyEnum.RON.getName(this), CurrencyEnum.RON.getIcon(this), 1.0))
-        val nativeSpinner = CurrencyAdapter(this, nativeList)
-        native_currency_spinner.adapter = nativeSpinner
+        val foreignSpinnerAdapter = CurrencyAdapter(this, modelList)
+        foreign_currency_spinner.adapter = foreignSpinnerAdapter
     }
 
     companion object {

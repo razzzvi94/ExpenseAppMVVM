@@ -10,6 +10,7 @@ import com.example.expenseappmvvm.R
 import com.example.expenseappmvvm.screens.mainScreen.HomeViewModel
 import com.example.expenseappmvvm.screens.mainScreen.adapter.WheelPickerChangeCurrencyAdapter
 import com.example.expenseappmvvm.screens.mainScreen.interfaces.BottomSheetListener
+import com.example.expenseappmvvm.utils.Constants
 import com.example.expenseappmvvm.utils.enums.CurrencyEnum
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.super_rabbit.wheel_picker.OnValueChangeListener
@@ -35,8 +36,8 @@ class ChangeCurrencyBottomSheetDialog(private val position: Int, private val vie
             post { view.currency_wheelPicker.smoothScrollTo(position) }
             setOnValueChangeListener(object : OnValueChangeListener {
                 override fun onValueChange(picker: WheelPicker, oldVal: String, newVal: String) {
-                    if(newVal == ""){
-                        mListener!!.selectedCurrency(CurrencyEnum.RON.name, CurrencyEnum.RON.name)
+                    if(newVal == Constants.EMPTY_STRING){
+                        mListener!!.selectedCurrency(oldVal, CurrencyEnum.RON.name)
                     }
                     else{
                         mListener!!.selectedCurrency(oldVal, newVal)

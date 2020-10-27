@@ -14,7 +14,7 @@ class CurrencyRepository(private val db: AppDatabase) {
         return db.currencyDao().getCurrencyDate()
     }
 
-    fun getCurrency(): Single<Currency> {
-        return db.currencyDao().getCurrencyDB()
+    fun getCurrency(currencyBase: String): Single<Currency> {
+        return db.currencyDao().getCurrencyDB(currencyBase)
     }
 }

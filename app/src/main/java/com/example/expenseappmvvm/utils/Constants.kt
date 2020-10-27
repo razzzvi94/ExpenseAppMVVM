@@ -9,6 +9,8 @@ object Constants {
     const val NULL_STRING = "null"
     const val SPECIAL_CHAR_STRING = "!@#$%&*()'+,-./:;<=>?[]^_`{|}"
     const val TWO_DECIMAL = "%.2f"
+    const val TWO_DECIMAL_FORMATTER = "#0.00"
+    const val TIME_ZONE_UTC = "UTC"
 
     //Numbers
     const val SPLASH_TIME_OUT: Long = 2000

@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.expenseappmvvm.data.database.entities.Transaction
 import io.reactivex.Maybe
+import io.reactivex.Observable
 import io.reactivex.Single
 
 @Dao
@@ -14,10 +15,10 @@ interface TransactionDao {
     fun insertOrUpdateTransaction(transaction: Transaction): Single<Long>
 
     @Query("SELECT SUM(transactionAmount) FROM transactions WHERE NOT transactionCategory = 'Income' AND transactionDate BETWEEN :startDate AND :endDate AND userId=:userId GROUP BY :userId")
-    fun getUserExpenseByDate(startDate: Long, endDate: Long, userId: Long): Maybe<Double>
+    fun getUserExpenseByDate(startDate: Long, endDate: Long, userId: Long): Observable<Double>
 
     @Query("SELECT SUM(CASE WHEN transactionCategory = 'Income' then transactionAmount else -transactionAmount END) AS transactionAmount FROM transactions WHERE userId = :userId")
-    fun getUserBalance(userId: Long): Maybe<Double>
+    fun getUserBalance(userId: Long): Observable<Double>
 
     @Query("UPDATE transactions SET transactionAmount = transactionAmount * :multiplier WHERE userId = :userId")
     fun updateUserAmountPreferredCurrency(multiplier: Double, userId: Long): Single<Int>

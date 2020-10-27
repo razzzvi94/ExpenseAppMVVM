@@ -55,15 +55,34 @@
             app:layout_constraintStart_toStartOf="@+id/currency_converter_border"
             app:layout_constraintTop_toTopOf="@+id/currency_converter_border" />
 
-        <Spinner
+        <LinearLayout
             android:id="@+id/native_currency_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/space_10dp"
-            android:background="@null"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="@+id/currency_converter_border"
             app:layout_constraintEnd_toEndOf="@+id/currency_converter_border"
-            app:layout_constraintTop_toTopOf="@+id/currency_converter_border" />
+            app:layout_constraintTop_toTopOf="@+id/currency_converter_border"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/nativeCurrency_imageView"
+                android:layout_width="@dimen/space_30dp"
+                android:layout_height="@dimen/space_30dp"
+                app:changeIcon="@{viewModel.userCurrency}"
+                android:layout_marginEnd="@dimen/space_30dp"/>
+
+            <TextView
+                android:id="@+id/nativeCurrency_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_normal"
+                android:text="@{viewModel.userCurrency}"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_20sp" />
+
+        </LinearLayout>
 
         <EditText
             android:id="@+id/foreign_currency"
