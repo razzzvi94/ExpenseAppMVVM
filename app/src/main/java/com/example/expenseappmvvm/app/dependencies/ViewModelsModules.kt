@@ -5,6 +5,7 @@ import com.example.expenseappmvvm.screens.currencyConverterScreen.CurrencyConver
 import com.example.expenseappmvvm.screens.loginScreen.LoginViewModel
 import com.example.expenseappmvvm.screens.mainScreen.HomeViewModel
 import com.example.expenseappmvvm.screens.mainScreen.fragments.budget.BudgetFragmentViewModel
+import com.example.expenseappmvvm.screens.mainScreen.fragments.expense.ExpenseFragmentViewModel
 import com.example.expenseappmvvm.screens.splashScreen.SplashViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
@@ -15,6 +16,7 @@ val viewModelsModule: Module = module {
     viewModel { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { LoginViewModel(get(), get(), get(), get(), get()) }
     viewModel { BudgetFragmentViewModel(get(), get(), get(), get()) }
+    viewModel { ExpenseFragmentViewModel(get(), get(), get(), get(), get()) }
     viewModel { AddActionViewModel(get(), get(), get(), get(), get()) }
     viewModel { CurrencyConverterViewModel(get(), get(), get(), get(), get(), get()) }
 }

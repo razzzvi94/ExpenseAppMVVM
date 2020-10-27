@@ -3,7 +3,6 @@ package com.example.expenseappmvvm.data.database.repositories
 import com.example.expenseappmvvm.data.database.AppDatabase
 import com.example.expenseappmvvm.data.database.entities.Currency
 import com.example.expenseappmvvm.data.database.entities.Transaction
-import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 
@@ -26,5 +25,9 @@ class TransactionRepository(private val db: AppDatabase) {
 
     fun getMultiplier(baseCurrency: String): Single<Currency>{
         return db.currencyDao().getMultiplier(baseCurrency)
+    }
+
+    fun getUserTransactionsDescending(userId: Long): Single<MutableList<Transaction>>{
+        return db.transactionDao().getUserTransactionsDescending(userId)
     }
 }

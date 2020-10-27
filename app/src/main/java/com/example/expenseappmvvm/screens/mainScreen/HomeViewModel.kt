@@ -49,7 +49,7 @@ class HomeViewModel(
             }
             .doOnNext { currencyResponse -> saveCurrencyToDB(currencyResponse) }
             .subscribe({
-                Timber.e(resourceUtils.getStringResource(R.string.currency_retrieve_success))
+                Timber.i(resourceUtils.getStringResource(R.string.currency_retrieve_success))
             }, {
                 Timber.e(resourceUtils.getStringResource(R.string.currency_retrieve_failed))
             }).disposeBy(compositeDisposable)

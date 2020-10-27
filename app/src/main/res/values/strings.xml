@@ -100,4 +100,8 @@
     <string name="change_currency_title">Change currency</string>
     <string name="change_currency_text">Change the currency in the entire application</string>
     <string name="preferred_currency">Saved preferred currency</string>
+    <string name="see_more">See More</string>
+    <string name="hide">Hide</string>
+    <string name="get_expense_failed">Get expense failed</string>
+    <string name="get_expense_successful">Get expense successful</string>
 </resources>
