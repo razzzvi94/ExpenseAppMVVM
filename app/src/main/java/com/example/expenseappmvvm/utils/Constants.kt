@@ -11,6 +11,7 @@ object Constants {
     const val TWO_DECIMAL = "%.2f"
     const val TWO_DECIMAL_FORMATTER = "#0.00"
     const val TIME_ZONE_UTC = "UTC"
+    const val EMPTY_EXPENSE = "0.0"
 
     //Numbers
     const val SPLASH_TIME_OUT: Long = 2000

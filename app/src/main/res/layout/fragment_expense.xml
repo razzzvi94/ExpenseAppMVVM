@@ -1,15 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".screens.mainScreen.fragments.expense.ExpensesFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.example.expenseappmvvm.screens.mainScreen.fragments.expense.ExpenseFragmentViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Expenses fragment"
-        android:background="@color/colorOrange"/>
+        android:background="@color/colorWhite">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/border"
+            android:layout_width="@dimen/space_0dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="@dimen/space_17dp"
+            android:background="@drawable/segment_view_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.81" />
+
+        <com.trinnguyen.SegmentView
+            android:id="@+id/interval_segment_view"
+            android:layout_width="@dimen/space_0dp"
+            android:layout_height="36dp"
+            app:layout_constraintBottom_toBottomOf="@+id/border"
+            app:layout_constraintEnd_toEndOf="@id/border"
+            app:layout_constraintStart_toStartOf="@id/border"
+            app:layout_constraintTop_toTopOf="@id/border"
+            app:layout_constraintWidth_percent="0.8"
+            app:numSegments="3"
+            app:selectedBackgroundColor="@color/colorGreen"
+            app:selectedIndex="0"
+            app:selectedTextColor="@color/colorWhite"
+            app:separateLineColor="@color/colorGreen"
+            app:textAppearance="@style/SegmentViewStyle"
+            app:unselectedBackgroundColor="@color/colorUnselectedView"
+            app:unselectedTextColor="@color/colorBlack" />
+
+        <TextView
+            android:id="@+id/total_expense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_15dp"
+            android:fontFamily="@font/roboto_normal"
+            android:text="@string/total_expensed"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.13"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/border" />
+
+        <TextView
+            android:id="@+id/total_expense_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_15dp"
+            android:fontFamily="@font/roboto_normal"
+            android:text="@{viewModel.totalExpense}"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.90"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/border" />
+
+        <TextView
+            android:id="@+id/showMode_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_12dp"
+            android:background="@drawable/btn_login"
+            android:fontFamily="@font/montserrat_regular"
+            android:padding="@dimen/space_5dp"
+            android:text="@{viewModel.showHide? @string/hide: @string/see_more}"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.93"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/total_expense_value"
+            android:onClick="@{()->viewModel.seeMore()}"/>
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChart"
+            android:layout_width="@dimen/space_300dp"
+            android:layout_height="@dimen/space_250dp"
+            android:layout_marginTop="@dimen/space_58dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/total_expense"
+            android:background="@color/colorLightGray"
+            tools:background="@color/colorOrange"
+            android:visibility="@{viewModel.showHide?View.VISIBLE: View.GONE}"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/transactions_recycler"
+            android:layout_width="@dimen/space_0dp"
+            android:layout_height="@dimen/space_0dp"
+            android:layout_marginTop="@dimen/space_43dp"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/space_60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pieChart"
+            app:layout_constraintWidth_percent="0.9" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

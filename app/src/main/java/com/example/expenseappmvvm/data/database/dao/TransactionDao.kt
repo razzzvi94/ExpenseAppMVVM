@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.expenseappmvvm.data.database.entities.Transaction
-import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 
@@ -22,4 +21,7 @@ interface TransactionDao {
 
     @Query("UPDATE transactions SET transactionAmount = transactionAmount * :multiplier WHERE userId = :userId")
     fun updateUserAmountPreferredCurrency(multiplier: Double, userId: Long): Single<Int>
+
+    @Query("SELECT * FROM transactions WHERE userId = :userId ORDER BY transactionDate DESC")
+    fun getUserTransactionsDescending(userId: Long): Single<MutableList<Transaction>>
 }

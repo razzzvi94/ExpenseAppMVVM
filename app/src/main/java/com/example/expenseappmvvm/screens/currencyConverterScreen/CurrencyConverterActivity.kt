@@ -91,12 +91,10 @@ class CurrencyConverterActivity : AppCompatActivity() {
         val modelList: MutableList<CurrencyItem> = mutableListOf()
         modelList.run {
             add(CurrencyItem("Currency", 0))
-            add(CurrencyItem(CurrencyEnum.RON.getName(this@CurrencyConverterActivity), CurrencyEnum.RON.getIcon(this@CurrencyConverterActivity)))
-            add(CurrencyItem(CurrencyEnum.EUR.getName(this@CurrencyConverterActivity), CurrencyEnum.EUR.getIcon(this@CurrencyConverterActivity)))
-            add(CurrencyItem(CurrencyEnum.USD.getName(this@CurrencyConverterActivity), CurrencyEnum.USD.getIcon(this@CurrencyConverterActivity)))
-            add(CurrencyItem(CurrencyEnum.GBP.getName(this@CurrencyConverterActivity), CurrencyEnum.GBP.getIcon(this@CurrencyConverterActivity)))
-            add(CurrencyItem(CurrencyEnum.CHF.getName(this@CurrencyConverterActivity), CurrencyEnum.CHF.getIcon(this@CurrencyConverterActivity)))
-            add(CurrencyItem(CurrencyEnum.AUD.getName(this@CurrencyConverterActivity), CurrencyEnum.AUD.getIcon(this@CurrencyConverterActivity)))
+            for(i in CurrencyEnum.values().indices){
+                add(CurrencyItem(CurrencyEnum.values()[i].getName(this@CurrencyConverterActivity), CurrencyEnum.values()[i].getIcon(this@CurrencyConverterActivity)))
+            }
+
         }
         val foreignSpinnerAdapter = CurrencyAdapter(this, modelList)
         foreign_currency_spinner.adapter = foreignSpinnerAdapter
