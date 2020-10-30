@@ -16,6 +16,12 @@ class SplashViewModel(
     private val sharedPref: Preferences,
     private val compositeDisposable: CompositeDisposable
 ) : ViewModel() {
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
+    }
+
     fun verifyUserLoggedIn(activity: SplashActivity) {
         Observable.timer(SPLASH_SCREEN_DURATION, TimeUnit.SECONDS)
             .observeOn(rxSchedulers.androidUI())

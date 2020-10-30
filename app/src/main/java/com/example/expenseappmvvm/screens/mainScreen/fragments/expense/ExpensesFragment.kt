@@ -16,13 +16,13 @@ import com.example.expenseappmvvm.screens.mainScreen.fragments.expense.dialog.Ex
 import com.example.expenseappmvvm.utils.DateUtils
 import com.trinnguyen.SegmentView
 import kotlinx.android.synthetic.main.fragment_expense.*
-import org.koin.android.ext.android.get
+import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import java.util.*
 
 class ExpensesFragment : Fragment(), SegmentView.OnSegmentItemSelectedListener {
 
-    private val expenseFragmentViewModel: ExpenseFragmentViewModel = get()
+    private val expenseFragmentViewModel: ExpenseFragmentViewModel by viewModel()
     private lateinit var adapter: TransactionAdapter
 
     override fun onSegmentItemSelected(index: Int) {
@@ -45,11 +45,10 @@ class ExpensesFragment : Fragment(), SegmentView.OnSegmentItemSelectedListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        expenseFragmentViewModel.initComponents()
-        expenseFragmentViewModel.initTransactionRecyclerViewList()
         initSegmentComponents()
         interval_segment_view.onSegmentItemSelectedListener = this
         initAdapter()
+        initObservers()
     }
 
     override fun onCreateView(
@@ -68,18 +67,23 @@ class ExpensesFragment : Fragment(), SegmentView.OnSegmentItemSelectedListener {
         }.root
     }
 
+    private fun initObservers() {
+        expenseFragmentViewModel.orderedList.observe(viewLifecycleOwner, {
+            adapter.updateAdapter(it.toMutableList())
+        })
+    }
+
     private fun initSegmentComponents() {
-        interval_segment_view.setText(0, resources.getString(R.string.this_week))
-        interval_segment_view.setText(1, resources.getString(R.string.this_month))
-        interval_segment_view.setText(2, resources.getString(R.string.this_year))
+        interval_segment_view.apply {
+            setText(0, resources.getString(R.string.this_week))
+            setText(1, resources.getString(R.string.this_month))
+            setText(2, resources.getString(R.string.this_year))
+        }
     }
 
     private fun initAdapter() {
         context?.let { context ->
-            TransactionAdapter(
-                context,
-                expenseFragmentViewModel.orderedList
-            ).run {
+            TransactionAdapter(context).run {
                 transactions_recycler.adapter = this@run
                 adapter = this@run
                 adapter.transactionAdapterListener
@@ -94,10 +98,10 @@ class ExpensesFragment : Fragment(), SegmentView.OnSegmentItemSelectedListener {
     }
 
     private fun showDialog(
-        transaction: RecyclerTransaction
+        transaction: RecyclerTransaction,
     ) {
         val fm: FragmentManager = this.childFragmentManager
-        val dialogFragment = ExpenseDialog(transaction)
+        val dialogFragment = ExpenseDialog(transaction, expenseFragmentViewModel.onItemDelete, expenseFragmentViewModel.onItemEdit)
         dialogFragment.show(fm, "fragmentDialog")
     }
 }

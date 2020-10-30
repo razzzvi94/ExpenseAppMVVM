@@ -40,6 +40,11 @@ class HomeViewModel(
     var currencyBase = MutableLiveData<String>().apply { value = CurrencyEnum.RON.name }
     var currencyTarget = MutableLiveData<String>().apply { value = CurrencyEnum.RON.name }
 
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
+    }
+
     private fun getCurrency(base: String) {
         return converterAPI.allCurrency(base)
             .subscribeOn(rxSchedulers.background())

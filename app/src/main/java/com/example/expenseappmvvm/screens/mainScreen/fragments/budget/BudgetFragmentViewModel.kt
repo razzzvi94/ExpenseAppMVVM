@@ -52,6 +52,11 @@ class BudgetFragmentViewModel(
         getMonthExpense()
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
+    }
+
     private fun getCurrentBalance() {
         return transactionRepository.getUserBalance(userId)
             .observeOn(rxSchedulers.androidUI())

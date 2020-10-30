@@ -15,11 +15,11 @@ import com.example.expenseappmvvm.screens.mainScreen.adapter.HomePagerAdapter
 import com.example.expenseappmvvm.screens.mainScreen.dialog.ChangeCurrencyBottomSheetDialog
 import com.example.expenseappmvvm.screens.mainScreen.interfaces.BottomSheetListener
 import kotlinx.android.synthetic.main.activity_home.*
-import org.koin.android.ext.android.get
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class HomeActivity : AppCompatActivity(), BottomSheetListener {
-    private val homeViewModel: HomeViewModel = get()
+    private val homeViewModel: HomeViewModel by viewModel()
     private var isFABOpen: Boolean = false
     private val fragmentAdapter = HomePagerAdapter(this, 2)
 

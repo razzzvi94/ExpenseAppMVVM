@@ -35,6 +35,11 @@ class LoginViewModel(
 
     private var isValid = true
 
+    public override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
+    }
+
     private fun addFormError(formError: FormErrorsEnum) {
         formErrorsList.add(formError)
         isValid = false

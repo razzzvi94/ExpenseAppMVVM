@@ -17,11 +17,11 @@ import com.example.expenseappmvvm.screens.currencyConverterScreen.adapter.models
 import com.example.expenseappmvvm.utils.enums.CurrencyEnum
 import kotlinx.android.synthetic.main.activity_currency_converter.*
 import kotlinx.android.synthetic.main.transaction_toolbar.view.*
-import org.koin.android.ext.android.get
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class CurrencyConverterActivity : AppCompatActivity() {
 
-    private val currencyConverterViewModel: CurrencyConverterViewModel = get()
+    private val currencyConverterViewModel: CurrencyConverterViewModel by viewModel()
     val currency: CurrencyCoin = CurrencyCoin()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,8 +91,8 @@ class CurrencyConverterActivity : AppCompatActivity() {
         val modelList: MutableList<CurrencyItem> = mutableListOf()
         modelList.run {
             add(CurrencyItem("Currency", 0))
-            for(i in CurrencyEnum.values().indices){
-                add(CurrencyItem(CurrencyEnum.values()[i].getName(this@CurrencyConverterActivity), CurrencyEnum.values()[i].getIcon(this@CurrencyConverterActivity)))
+            CurrencyEnum.values().forEach{
+                add(CurrencyItem(it.getName(this@CurrencyConverterActivity), it.getIcon(this@CurrencyConverterActivity)))
             }
 
         }

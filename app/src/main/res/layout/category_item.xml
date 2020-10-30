@@ -43,6 +43,7 @@
             app:layout_constraintTop_toBottomOf="@+id/category_image"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="Income"
+            android:textColor="@color/colorBlack"
             android:text="@{categoryItem.categoryName}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

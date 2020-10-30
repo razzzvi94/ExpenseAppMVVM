@@ -21,14 +21,14 @@ import com.example.expenseappmvvm.screens.addActionScreen.enums.CategoryEnum
 import com.example.expenseappmvvm.screens.mainScreen.HomeActivity
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_add_action.*
-import org.koin.android.ext.android.get
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
 class AddActionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
 
-    private val addActionViewModel: AddActionViewModel = get()
+    private val addActionViewModel: AddActionViewModel by viewModel()
     private var dateTime = DateTime()
 
     override fun onCreate(savedInstanceState: Bundle?) {
