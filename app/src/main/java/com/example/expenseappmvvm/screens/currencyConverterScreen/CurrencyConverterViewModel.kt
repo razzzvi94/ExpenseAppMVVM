@@ -36,6 +36,11 @@ class CurrencyConverterViewModel(
     var userCurrency = MutableLiveData<String>().apply { value = CurrencyEnum.RON.name }
     var currencyValue: Double = 0.0
 
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
+    }
+
     private fun populateSpinnerList(currency: Currency) {
         currencyValueList.run {
             add(0.0)

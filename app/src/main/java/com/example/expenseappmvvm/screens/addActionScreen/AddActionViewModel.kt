@@ -42,6 +42,11 @@ class AddActionViewModel(
         itemClickAction()
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
+    }
+
     fun selectDate() {
         openDatePicker.call()
     }

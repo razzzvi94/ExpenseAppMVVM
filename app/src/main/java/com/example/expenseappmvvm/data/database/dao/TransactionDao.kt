@@ -23,5 +23,11 @@ interface TransactionDao {
     fun updateUserAmountPreferredCurrency(multiplier: Double, userId: Long): Single<Int>
 
     @Query("SELECT * FROM transactions WHERE userId = :userId ORDER BY transactionDate DESC")
-    fun getUserTransactionsDescending(userId: Long): Single<MutableList<Transaction>>
+    fun getUserTransactionsDescending(userId: Long): Observable<MutableList<Transaction>>
+
+    @Query("DELETE FROM transactions WHERE transactionId = :transactionId")
+    fun deleteTransactionById(transactionId: Long)
+
+    @Query("UPDATE transactions SET transactionAmount = :new_amount WHERE transactionId = :transactionId")
+    fun editTransaction(transactionId: Long, new_amount: Double): Single<Int>
 }

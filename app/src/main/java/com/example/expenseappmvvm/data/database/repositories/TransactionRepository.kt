@@ -27,7 +27,15 @@ class TransactionRepository(private val db: AppDatabase) {
         return db.currencyDao().getMultiplier(baseCurrency)
     }
 
-    fun getUserTransactionsDescending(userId: Long): Single<MutableList<Transaction>>{
+    fun getUserTransactionsDescending(userId: Long): Observable<MutableList<Transaction>>{
         return db.transactionDao().getUserTransactionsDescending(userId)
+    }
+
+    fun deleteTransactionById(incomeId: Long){
+        return db.transactionDao().deleteTransactionById(incomeId)
+    }
+
+    fun editTransaction(id: Long, new_income: Double): Single<Int>{
+        return db.transactionDao().editTransaction(id, new_income)
     }
 }

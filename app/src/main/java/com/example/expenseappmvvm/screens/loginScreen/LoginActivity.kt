@@ -30,6 +30,11 @@ class LoginActivity : AppCompatActivity() {
         observeLiveData()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        loginViewModel.onCleared()
+    }
+
     private fun observeLiveData() {
         loginViewModel.goToHomeScreen.observe(this, { HomeActivity.startHome(this) })
     }

@@ -8,11 +8,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.expenseappmvvm.R
 import com.example.expenseappmvvm.databinding.FragmentBudgetBinding
-import org.koin.android.ext.android.get
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class BudgetFragment : Fragment() {
 
-    private val budgetFragmentViewModel: BudgetFragmentViewModel = get()
+    private val budgetFragmentViewModel: BudgetFragmentViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
