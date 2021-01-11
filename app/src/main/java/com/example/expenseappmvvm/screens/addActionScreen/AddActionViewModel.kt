@@ -27,6 +27,7 @@ class AddActionViewModel(
 ) : ViewModel() {
     var openDatePicker = SingleLiveEvent<Any>()
     var goToHomeScreen = SingleLiveEvent<Any>()
+    var openCurrencyDialog = SingleLiveEvent<Any>()
     val onItemClick = PublishSubject.create<CategoryItem>()
     var categorySelected: String = resourceUtils.getStringResource(R.string.income)
 
@@ -47,10 +48,6 @@ class AddActionViewModel(
         compositeDisposable.clear()
     }
 
-    fun selectDate() {
-        openDatePicker.call()
-    }
-
     private fun itemClickAction() {
         onItemClick.observeOn(rxSchedulers.androidUI())
             .subscribe({ item ->
@@ -59,32 +56,6 @@ class AddActionViewModel(
                 Timber.i(it.localizedMessage)
             })
             .disposeBy(compositeDisposable)
-    }
-
-    fun saveAction() {
-        if (dateTimeText.value != null && amountText.value != null) {
-            if (categorySelected == resourceUtils.getStringResource(R.string.income)) {
-                saveTransaction()
-                Toast.makeText(
-                    resourceUtils.getContext(),
-                    resourceUtils.getStringResource(R.string.budget_saved),
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                saveTransaction()
-                Toast.makeText(
-                    resourceUtils.getContext(),
-                    resourceUtils.getStringResource(R.string.expense_saved),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        } else {
-            Toast.makeText(
-                resourceUtils.getContext(),
-                resourceUtils.getStringResource(R.string.mandatory_fields),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
     }
 
     private fun saveTransaction() {
@@ -116,5 +87,39 @@ class AddActionViewModel(
             transactionDetails = defaultDetailsText,
             transactionImage = defaultDetailsImage
         )
+    }
+
+    fun selectDate() {
+        openDatePicker.call()
+    }
+
+    fun saveAction() {
+        if (dateTimeText.value != null && amountText.value != null) {
+            if (categorySelected == resourceUtils.getStringResource(R.string.income)) {
+                saveTransaction()
+                Toast.makeText(
+                    resourceUtils.getContext(),
+                    resourceUtils.getStringResource(R.string.budget_saved),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                saveTransaction()
+                Toast.makeText(
+                    resourceUtils.getContext(),
+                    resourceUtils.getStringResource(R.string.expense_saved),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        } else {
+            Toast.makeText(
+                resourceUtils.getContext(),
+                resourceUtils.getStringResource(R.string.mandatory_fields),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    fun openCurrencyDialog(){
+        openCurrencyDialog.call()
     }
 }

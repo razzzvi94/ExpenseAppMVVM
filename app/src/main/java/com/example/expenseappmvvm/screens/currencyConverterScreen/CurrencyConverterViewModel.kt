@@ -53,7 +53,7 @@ class CurrencyConverterViewModel(
         }
     }
 
-    fun getLocalCurrency() {
+    private fun getLocalCurrency() {
         return currencyRepository.getCurrency(userCurrency.value.toString())
             .subscribeOn(rxSchedulers.background())
             .observeOn(rxSchedulers.androidUI())

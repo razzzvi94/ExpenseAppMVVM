@@ -71,18 +71,33 @@
 
             <EditText
                 android:id="@+id/amount_EditText"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/space_0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_17dp"
                 android:layout_marginTop="@dimen/space_7dp"
-                android:layout_marginEnd="@dimen/space_16dp"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:hint="@string/hint_amount"
                 android:inputType="number"
                 android:text="@={viewModel.amountText}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/amount_TextView" />
+                app:layout_constraintTop_toBottomOf="@+id/amount_TextView"
+                app:layout_constraintEnd_toStartOf="@+id/converter_imageView"
+                app:layout_constraintHorizontal_chainStyle="packed"/>
+
+            <ImageView
+                android:id="@+id/converter_imageView"
+                android:layout_width="@dimen/space_36dp"
+                android:layout_height="@dimen/space_36dp"
+                android:src="@drawable/ic_exchange"
+                android:layout_marginTop="@dimen/space_7dp"
+                android:layout_marginStart="@dimen/space_9dp"
+                android:layout_marginEnd="@dimen/space_13dp"
+                android:onClick="@{()->viewModel.openCurrencyDialog()}"
+                app:layout_constraintStart_toEndOf="@+id/amount_EditText"
+                app:layout_constraintTop_toBottomOf="@+id/amount_TextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_chainStyle="packed"/>
 
             <TextView
                 android:id="@+id/category_TextView"
