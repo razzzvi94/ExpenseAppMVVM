@@ -22,7 +22,7 @@ interface TransactionDao {
     @Query("UPDATE transactions SET transactionAmount = transactionAmount * :multiplier WHERE userId = :userId")
     fun updateUserAmountPreferredCurrency(multiplier: Double, userId: Long): Single<Int>
 
-    @Query("SELECT * FROM transactions WHERE userId = :userId ORDER BY transactionDate DESC")
+    @Query("SELECT * FROM transactions WHERE userId = :userId ORDER BY transactionDate ASC")
     fun getUserTransactionsDescending(userId: Long): Observable<MutableList<Transaction>>
 
     @Query("DELETE FROM transactions WHERE transactionId = :transactionId")

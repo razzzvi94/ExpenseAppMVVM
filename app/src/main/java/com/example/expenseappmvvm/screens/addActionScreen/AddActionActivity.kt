@@ -11,14 +11,18 @@ import android.widget.TimePicker
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.expenseappmvvm.R
 import com.example.expenseappmvvm.databinding.ActivityAddActionBinding
 import com.example.expenseappmvvm.screens.addActionScreen.adapter.CategoryAdapter
 import com.example.expenseappmvvm.screens.addActionScreen.adapter.models.CategoryItem
 import com.example.expenseappmvvm.screens.addActionScreen.adapter.models.DateTime
+import com.example.expenseappmvvm.screens.addActionScreen.dialog.ChangeCurrencyDialogFragment
 import com.example.expenseappmvvm.screens.addActionScreen.enums.CategoryEnum
 import com.example.expenseappmvvm.screens.mainScreen.HomeActivity
+import com.example.expenseappmvvm.screens.mainScreen.fragments.expense.adapter.models.RecyclerTransaction
+import com.example.expenseappmvvm.screens.mainScreen.fragments.expense.dialog.ExpenseDialog
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_add_action.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -80,6 +84,7 @@ class AddActionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListene
         addActionViewModel.apply {
             openDatePicker.observe(this@AddActionActivity, { initDatePicker() })
             goToHomeScreen.observe(this@AddActionActivity, { HomeActivity.startHome(this@AddActionActivity) })
+            openCurrencyDialog.observe(this@AddActionActivity, { showDialog() })
         }
     }
 
@@ -152,6 +157,11 @@ class AddActionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListene
             list.add(CategoryItem(it.getIcon(this), it.getName(this), selected))
         }
         return list
+    }
+
+    private fun showDialog() {
+        val dialogFragment = ChangeCurrencyDialogFragment(this)
+        dialogFragment.show(supportFragmentManager, "fragmentDialog")
     }
 
     companion object {
