@@ -35,7 +35,7 @@ class CurrencyConverterActivity : AppCompatActivity() {
         }
 
         currencyConverterViewModel.apply {
-            getUserCurrency()
+            getUserCurrencyFromDB()
             nativeCurrencyTextChanged(native_currency)
             foreignCurrencyTextChanged(foreign_currency)
         }

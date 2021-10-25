@@ -127,7 +127,7 @@ class CurrencyConverterViewModel(
         }
     }
 
-    fun getUserCurrency() {
+    fun getUserCurrencyFromDB() {
         var userId: Long = 0
         if (sharedPref.hasKey(Constants.USER_ID)) {
             userId = sharedPref.read(Constants.USER_ID, userId)
